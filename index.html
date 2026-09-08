@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASA CABREJAS BENAVENT</title>
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f2f2f7;
+      margin: 0;
+      padding: 16px;
+      color: #1c1c1e;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 30px 0 15px 0;
+      color: #007aff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Tarjeta contenedor de cada estancia */
+    .tarjeta-estancia {
+      background-color: #ffffff;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    /* Botón cabecera desplegable */
+    .cabecera-desplegable {
+      width: 100%;
+      background-color: #ffffff;
+      border: none;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #007aff;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .cabecera-desplegable:active {
+      background-color: #f2f2f7;
+    }
+
+    .icono-indicador {
+      font-size: 16px;
+      color: #8e8e93;
+    }
+
+    /* Contenido de tareas */
+    .contenido-tareas {
+      display: none;
+      padding: 0 16px 16px 16px;
+      border-top: 1px solid #f2f2f7;
+    }
+    .contenido-tareas.abierto {
+      display: block;
+    }
+
+    .tarea-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px dashed #e5e5ea;
+    }
+    .tarea-item:last-child {
+      border-bottom: none;
+    }
+    .tarea-info {
+      flex: 1;
+      padding-right: 10px;
+    }
+    .tarea-nombre {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .tarea-frecuencia {
+      font-size: 12px;
+      color: #8e8e93;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .input-frecuencia {
+      width: 45px;
+      padding: 2px;
+      font-size: 12px;
+      border: 1px solid #c7c7cc;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .tarea-estado {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .urgente {
+      color: #ff3b30;
+      font-weight: bold;
+    }
+    .al-dia {
+      color: #34c759;
+      font-weight: 500;
+    }
+
+    /* Estilos de Recordatorios (Comprar / Hacer) */
+    .pizarra-contenedor {
+      display: flex;
+      gap: 12px;
+    }
+    .columna-pizarra {
+      flex: 1;
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .columna-titulo {
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #1c1c1e;
+      border-bottom: 2px solid #f2f2f7;
+      padding-bottom: 6px;
+    }
+    .form-pizarra {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .input-pizarra {
+      flex: 1;
+      padding: 6px;
+      border: 1px solid #c7c7cc;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .lista-pizarra {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .item-pizarra {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #f2f2f7;
+      font-size: 14px;
+    }
+    .item-pizarra:last-child {
+      border-bottom: none;
+    }
+
+    /* Botones generales */
+    button {
+      background-color: #007aff;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button.btn-limpiar {
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    button.btn-borrar {
+      background-color: #ff3b30;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+    button:active {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>CASA CABREJAS BENAVENT</h1>
+
+    <h2>LIMPIEZA</h2>
+    <div id="app"></div>
+
+    <h2>RECORDATORIOS</h2>
+    <div class="pizarra-contenedor">
+      <!-- Columna Comprar -->
+      <div class="columna-pizarra">
+        <div class="columna-titulo">Comprar</div>
+        <div class="form-pizarra">
+          <input type="text" id="input-comprar" class="input-pizarra" placeholder="Añadir..." />
+          <button onclick="agregarElementoPizarra('comprar')">+</button>
+        </div>
+        <ul id="lista-comprar" class="lista-pizarra"></ul>
+      </div>
+
+      <!-- Columna Hacer -->
+      <div class="columna-pizarra">
+        <div class="columna-titulo">Hacer</div>
+        <div class="form-pizarra">
+          <input type="text" id="input-hacer" class="input-pizarra" placeholder="Añadir..." />
+          <button onclick="agregarElementoPizarra('hacer')">+</button>
+        </div>
+        <ul id="lista-hacer" class="lista-pizarra"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. ESTRUCTURA DE DATOS BASE REORDENADA
+    const configuracionEstancias = [
+      {
+        id: "estancia_matrimonio",
+        nombre: "Habitación matrimonio",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar cristales", intervaloDias: 15 },
+          { nombre: "Cambiar sábanas", intervaloDias: 14 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_elia",
+        nombre: "Habitación Elia",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar mesa", intervaloDias: 2 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_israel",
+        nombre: "Habitación Israel",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar cristales", intervaloDias: 15 },
+          { nombre: "Cambiar sábanas", intervaloDias: 14 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_comedor",
+        nombre: "Comedor",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar muebles", intervaloDias: 7 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar cristales", intervaloDias: 15 },
+          { nombre: "Limpiar pecera", intervaloDias: 7 },
+          { nombre: "Pasar aspiradora sofá", intervaloDias: 10 },
+          { nombre: "Limpiar mesa", intervaloDias: 1 },
+          { nombre: "Limpiar sillas", intervaloDias: 7 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_bano",
+        nombre: "Baño",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar cristales", intervaloDias: 15 },
+          { nombre: "Limpiar mampara", intervaloDias: 7 },
+          { nombre: "Limpiar plato de ducha", intervaloDias: 7 },
+          { nombre: "Limpiar bidet", intervaloDias: 3 },
+          { nombre: "Limpiar wáter", intervaloDias: 2 },
+          { nombre: "Limpiar pila", intervaloDias: 2 },
+          { nombre: "Limpiar mesa", intervaloDias: 7 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_cocina",
+        nombre: "Cocina",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Fregar", intervaloDias: 1 },
+          { nombre: "Limpiar encimera", intervaloDias: 1 },
+          { nombre: "Limpiar horno", intervaloDias: 15 },
+          { nombre: "Limpiar microondas", intervaloDias: 7 },
+          { nombre: "Limpiar thermomix", intervaloDias: 3 },
+          { nombre: "Limpiar air fryer", intervaloDias: 3 },
+          { nombre: "Limpiar nevera", intervaloDias: 15 },
+          { nombre: "Desinfectar", intervaloDias: 2 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 2 }
+        ]
+      }
+    ];
+
+    function generarDatosIniciales() {
+      return configuracionEstancias.map(estancia => ({
+        id: estancia.id,
+        nombre: estancia.nombre,
+        tareas: estancia.tareas.map((tarea, index) => ({
+          id: `${estancia.id}_t${index}`,
+          nombre: tarea.nombre,
+          intervaloDias: tarea.intervaloDias,
+          ultimaLimpieza: Date.now()
+        }))
+      }));
+    }
+
+    // 2. MANEJO DE ALMACENAMIENTO LOCAL
+    function cargarLimpieza() {
+      const guardado = localStorage.getItem("limpieza_hogar_local");
+      return guardado ? JSON.parse(guardado) : generarDatosIniciales();
+    }
+
+    function guardarLimpieza(datos) {
+      localStorage.setItem("limpieza_hogar_local", JSON.stringify(datos));
+    }
+
+    function cargarPizarra() {
+      const guardado = localStorage.getItem("pizarra_hogar_local");
+      return guardado ? JSON.parse(guardado) : { comprar: [], hacer: [] };
+    }
+
+    function guardarPizarra(datos) {
+      localStorage.setItem("pizarra_hogar_local", JSON.stringify(datos));
+    }
+
+    let estadoApp = cargarLimpieza();
+    let estadoPizarra = cargarPizarra();
+    let estanciasAbiertas = {};
+
+    // 3. CÁLCULO DE CUENTA ATRÁS
+    function obtenerEstadoCuentaAtras(ultimaLimpieza, intervaloDias) {
+      const msPorDia = 86400000;
+      const fechaProxima = ultimaLimpieza + (intervaloDias * msPorDia);
+      const diferenciaMs = fechaProxima - Date.now();
+      const diasRestantes = Math.ceil(diferenciaMs / msPorDia);
+
+      if (diasRestantes <= 0) {
+        return { texto: `Toca limpiar (Vencido hace ${Math.abs(diasRestantes)} d)`, esUrgente: true };
+      }
+      return { texto: `Próxima limpieza en: ${diasRestantes} día(s)`, esUrgente: false };
+    }
+
+    // 4. ACCIONES DE LIMPIEZA
+    function alternarDesplegable(estanciaId) {
+      estanciasAbiertas[estanciaId] = !estanciasAbiertas[estanciaId];
+      renderizarLimpieza();
+    }
+
+    function marcarLimpio(estanciaId, tareaId) {
+      estadoApp = estadoApp.map(estancia => {
+        if (estancia.id === estanciaId) {
+          estancia.tareas = estancia.tareas.map(tarea => {
+            if (tarea.id === tareaId) {
+              tarea.ultimaLimpieza = Date.now();
+            }
+            return tarea;
+          });
+        }
+        return estancia;
+      });
+      guardarLimpieza(estadoApp);
+      renderizarLimpieza();
+    }
+
+    function cambiarFrecuencia(estanciaId, tareaId, nuevosDias) {
+      const valorNumerico = parseInt(nuevosDias, 10);
+      if (isNaN(valorNumerico) || valorNumerico < 1) return;
+
+      estadoApp = estadoApp.map(estancia => {
+        if (estancia.id === estanciaId) {
+          estancia.tareas = estancia.tareas.map(tarea => {
+            if (tarea.id === tareaId) {
+              tarea.intervaloDias = valorNumerico;
+            }
+            return tarea;
+          });
+        }
+        return estancia;
+      });
+      guardarLimpieza(estadoApp);
+      renderizarLimpieza();
+    }
+
+    // 5. ACCIONES DE RECORDATORIOS
+    function agregarElementoPizarra(tipo) {
+      const input = document.getElementById(`input-${tipo}`);
+      const texto = input.value.trim();
+      if (!texto) return;
+
+      estadoPizarra[tipo].push(texto);
+      guardarPizarra(estadoPizarra);
+      input.value = "";
+      renderizarPizarra();
+    }
+
+    function eliminarElementoPizarra(tipo, indice) {
+      estadoPizarra[tipo].splice(indice, 1);
+      guardarPizarra(estadoPizarra);
+      renderizarPizarra();
+    }
+
+    // 6. RENDERIZADO
+    function renderizarLimpieza() {
+      const appContainer = document.getElementById("app");
+      appContainer.innerHTML = "";
+
+      estadoApp.forEach(estancia => {
+        const estaAbierta = estanciasAbiertas[estancia.id] || false;
+
+        const contenedorTarjeta = document.createElement("div");
+        contenedorTarjeta.className = "tarjeta-estancia";
+
+        const botonCabecera = document.createElement("button");
+        botonCabecera.className = "cabecera-desplegable";
+        botonCabecera.onclick = () => alternarDesplegable(estancia.id);
+        botonCabecera.innerHTML = `
+          <span>${estancia.nombre}</span>
+          <span class="icono-indicador">${estaAbierta ? "▲" : "▼"}</span>
+        `;
+
+        const contenedorTareas = document.createElement("div");
+        contenedorTareas.className = `contenido-tareas ${estaAbierta ? "abierto" : ""}`;
+
+        let htmlTareas = "";
+        estancia.tareas.forEach(tarea => {
+          const info = obtenerEstadoCuentaAtras(tarea.ultimaLimpieza, tarea.intervaloDias);
+          const claseEstado = info.esUrgente ? "urgente" : "al-dia";
+
+          htmlTareas += `
+            <div class="tarea-item">
+              <div class="tarea-info">
+                <div class="tarea-nombre">${tarea.nombre}</div>
+                <div class="tarea-frecuencia">
+                  Cada 
+                  <input 
+                    type="number" 
+                    class="input-frecuencia" 
+                    value="${tarea.intervaloDias}" 
+                    min="1"
+                    onchange="cambiarFrecuencia('${estancia.id}', '${tarea.id}', this.value)"
+                  /> 
+                  día(s)
+                </div>
+                <div class="tarea-estado ${claseEstado}">${info.texto}</div>
+              </div>
+              <button class="btn-limpiar" onclick="marcarLimpio('${estancia.id}', '${tarea.id}')">Limpiar</button>
+            </div>
+          `;
+        });
+
+        contenedorTareas.innerHTML = htmlTareas;
+        contenedorTarjeta.appendChild(botonCabecera);
+        contenedorTarjeta.appendChild(contenedorTareas);
+        appContainer.appendChild(contenedorTarjeta);
+      });
+    }
+
+    function renderizarPizarra() {
+      ["comprar", "hacer"].forEach(tipo => {
+        const listaUl = document.getElementById(`lista-${tipo}`);
+        listaUl.innerHTML = "";
+
+        estadoPizarra[tipo].forEach((texto, index) => {
+          const li = document.createElement("li");
+          li.className = "item-pizarra";
+          li.innerHTML = `
+            <span>${texto}</span>
+            <button class="btn-borrar" onclick="eliminarElementoPizarra('${tipo}', ${index})">X</button>
+          `;
+          listaUl.appendChild(li);
+        });
+      });
+    }
+
+    // Inicializar
+    renderizarLimpieza();
+    renderizarPizarra();
+  </script>
+</body>
+</html>
