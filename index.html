@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CASA CABREJAS BENAVENT</title>
   <style>
-    /* Estilos base */
     * {
       box-sizing: border-box;
     }
@@ -16,133 +15,716 @@
       padding: 16px;
       color: #1c1c1e;
     }
+    
     h1 {
       text-align: center;
-      font-size: 24px;
+      font-size: 22px;
       margin-top: 0;
-      margin-bottom: 16px;
-    }
-    h2 {
-      font-size: 18px;
-      margin: 15px 0 10px 0;
-      color: #007aff;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      margin-bottom: 12px;
     }
 
-    /* Layout en 2 columnas para pantalla horizontal (Tablet) */
-    .pantalla-horizontal {
+    /* BARRA DE NAVEGACIÓN */
+    .navegacion {
       display: flex;
-      gap: 20px;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-nav {
+      flex: 1;
+      min-width: 120px;
+      max-width: 180px;
+      padding: 12px 8px;
+      font-size: 14px;
+      font-weight: bold;
+      background-color: #e5e5ea;
+      color: #007aff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-nav.activo {
+      background-color: #007aff;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3);
+    }
+
+    /* CONTENEDOR DE SECCIONES */
+    .seccion-pantalla {
+      display: none;
+      height: calc(100vh - 120px);
       max-width: 1200px;
       margin: 0 auto;
-      height: calc(100vh - 80px); /* Ocupa el alto de la pantalla */
+      overflow-y: auto;
+    }
+    .seccion-pantalla.activa {
+      display: block;
     }
 
-    /* Columna Izquierda: Limpieza y Recordatorios */
-    .columna-izquierda {
-      flex: 1;
-      overflow-y: auto; /* Permite desplazamiento vertical si el contenido es largo */
-      padding-right: 8px;
-    }
-
-    /* Columna Derecha: Calendario de Google */
-    .columna-derecha {
-      flex: 1200;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .contenedor-calendario {
-      width: 100%;
-      height: 100%;
-      min-height: 450px;
-      background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    /* Estilos de tarjetas y elementos existentes */
-    .tarjeta-estancia, .columna-pizarra {
+    /* ESTILOS DE LIMPIEZA */
+    .tarjeta-estancia {
       background-color: #ffffff;
       border-radius: 12px;
       margin-bottom: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      overflow: hidden;
     }
-    
-    .pizarra-contenedor {
+    .cabecera-desplegable {
+      width: 100%;
+      background-color: #ffffff;
+      border: none;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #007aff;
+      text-align: left;
       display: flex;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
     }
+    .contenido-tareas {
+      display: none;
+      padding: 0 16px 16px 16px;
+      border-top: 1px solid #f2f2f7;
+    }
+    .contenido-tareas.abierto {
+      display: block;
+    }
+    .tarea-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px dashed #e5e5ea;
+    }
+    .tarea-item:last-child {
+      border-bottom: none;
+    }
+    .tarea-info { flex: 1; }
+    .tarea-nombre { font-weight: 600; font-size: 15px; }
+    .tarea-frecuencia { font-size: 12px; color: #8e8e93; margin-top: 2px; }
+    .input-frecuencia { width: 45px; padding: 2px; font-size: 12px; border: 1px solid #c7c7cc; border-radius: 4px; text-align: center; }
+    .tarea-estado { font-size: 12px; margin-top: 2px; }
+    .urgente { color: #ff3b30; font-weight: bold; }
+    .al-dia { color: #34c759; font-weight: 500; }
 
-    /* Ajuste para pantallas pequeñas o móviles si cambias de orientación */
-    @media (max-width: 768px) {
-      .pantalla-horizontal {
-        flex-direction: column;
-        height: auto;
-      }
+    /* ESTILOS DE RECORDATORIOS */
+    .pizarra-contenedor { display: flex; gap: 16px; height: 100%; }
+    .columna-pizarra {
+      flex: 1; background-color: #ffffff; border-radius: 12px; padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column;
     }
+    .columna-titulo {
+      font-weight: bold; font-size: 18px; text-align: center; margin-bottom: 12px;
+      border-bottom: 2px solid #f2f2f7; padding-bottom: 8px;
+    }
+    .form-pizarra { display: flex; gap: 8px; margin-bottom: 12px; }
+    .input-pizarra { flex: 1; padding: 8px; border: 1px solid #c7c7cc; border-radius: 6px; font-size: 14px; }
+    .lista-pizarra { list-style: none; padding: 0; margin: 0; overflow-y: auto; }
+    .item-pizarra { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f2f2f7; font-size: 14px; }
+
+    /* ESTILOS DEL MENÚ SEMANAL */
+    .tabla-menu-contenedor { background-color: #ffffff; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow-x: auto; }
+    .tabla-menu { width: 100%; border-collapse: collapse; min-width: 700px; }
+    .tabla-menu th, .tabla-menu td { border: 1px solid #e5e5ea; padding: 8px; text-align: center; }
+    .tabla-menu th { background-color: #007aff; color: #ffffff; font-size: 14px; text-transform: uppercase; }
+    .tabla-menu .col-tipo { background-color: #f2f2f7; font-weight: bold; color: #1c1c1e; width: 90px; }
+    .input-menu { width: 100%; height: 120px; border: none; resize: none; font-family: inherit; font-size: 13px; padding: 4px; background: transparent; outline: none; }
+    .input-menu:focus { background-color: #f2f2f7; border-radius: 6px; }
+
+    /* ESTILOS DE RUTINARIO */
+    .rutina-panel {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+    }
+    .form-rutina {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .form-rutina input, .form-rutina select {
+      padding: 8px 12px;
+      border: 1px solid #c7c7cc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .form-rutina input[type="text"] { flex: 2; min-width: 200px; }
+    .lista-rutinas { list-style: none; padding: 0; margin: 0; }
+    .item-rutina {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .rutina-detalles { display: flex; flex-direction: column; gap: 4px; }
+    .rutina-titulo { font-weight: bold; font-size: 16px; }
+    .rutina-horario { font-size: 13px; color: #8e8e93; }
+
+    /* ESTILOS DEL CALENDARIO */
+    .contenedor-iframe { width: 100%; height: 100%; background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; }
+    iframe { width: 100%; height: 100%; border: 0; }
+
+    /* BOTONES GENERALES */
+    button { background-color: #007aff; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    button.btn-borrar { background-color: #ff3b30; padding: 4px 8px; font-size: 12px; }
   </style>
 </head>
 <body>
 
   <h1>CASA CABREJAS BENAVENT</h1>
 
-  <div class="pantalla-horizontal">
-    
-    <!-- COLUMNA IZQUIERDA: APLICACIÓN ACTUAL -->
-    <div class="columna-izquierda">
-      <h2>LIMPIEZA</h2>
-      <div id="app"></div>
+  <!-- BARRA DE NAVEGACIÓN -->
+  <div class="navegacion">
+    <button class="btn-nav activo" onclick="cambiarVista('limpieza', event)">LIMPIEZA</button>
+    <button class="btn-nav" onclick="cambiarVista('recordatorios', event)">RECORDATORIOS</button>
+    <button class="btn-nav" onclick="cambiarVista('menu', event)">MENÚ SEMANAL</button>
+    <button class="btn-nav" onclick="cambiarVista('rutinario', event)">RUTINARIO</button>
+    <button class="btn-nav" onclick="cambiarVista('calendario', event)">CALENDARIO</button>
+  </div>
 
-      <h2>RECORDATORIOS</h2>
-      <div class="pizarra-contenedor">
-        <div class="columna-pizarra" style="flex: 1; padding: 10px;">
-          <div style="font-weight: bold; text-align: center; margin-bottom: 8px;">Comprar</div>
-          <div style="display: flex; gap: 4px;">
-            <input type="text" id="input-comprar" style="width: 100%;" placeholder="Añadir..." />
-            <button onclick="agregarElementoPizarra('comprar')">+</button>
-          </div>
-          <ul id="lista-comprar" style="padding-left: 15px;"></ul>
-        </div>
+  <!-- VISTA 1: LIMPIEZA -->
+  <div id="vista-limpieza" class="seccion-pantalla activa">
+    <div id="app"></div>
+  </div>
 
-        <div class="columna-pizarra" style="flex: 1; padding: 10px;">
-          <div style="font-weight: bold; text-align: center; margin-bottom: 8px;">Hacer</div>
-          <div style="display: flex; gap: 4px;">
-            <input type="text" id="input-hacer" style="width: 100%;" placeholder="Añadir..." />
-            <button onclick="agregarElementoPizarra('hacer')">+</button>
-          </div>
-          <ul id="lista-hacer" style="padding-left: 15px;"></ul>
+  <!-- VISTA 2: RECORDATORIOS -->
+  <div id="vista-recordatorios" class="seccion-pantalla">
+    <div class="pizarra-contenedor">
+      <div class="columna-pizarra">
+        <div class="columna-titulo">Comprar</div>
+        <div class="form-pizarra">
+          <input type="text" id="input-comprar" class="input-pizarra" placeholder="Añadir..." />
+          <button onclick="agregarElementoPizarra('comprar')">+</button>
         </div>
+        <ul id="lista-comprar" class="lista-pizarra"></ul>
+      </div>
+
+      <div class="columna-pizarra">
+        <div class="columna-titulo">Hacer</div>
+        <div class="form-pizarra">
+          <input type="text" id="input-hacer" class="input-pizarra" placeholder="Añadir..." />
+          <button onclick="agregarElementoPizarra('hacer')">+</button>
+        </div>
+        <ul id="lista-hacer" class="lista-pizarra"></ul>
       </div>
     </div>
+  </div>
 
-    <!-- COLUMNA DERECHA: GOOGLE CALENDAR -->
-    <div class="columna-derecha">
-      <h2>CALENDARIO</h2>
-      <div class="contenedor-calendario">
-        <!-- Reemplaza el enlace del src por el iframe de tu Google Calendar -->
-        <iframe 
-          src="https://calendar.google.com/calendar/embed?src=tu_correo%40gmail.com&ctz=Europe%2FMadrid" 
-          style="border: 0" 
-          frameborder="0" 
-          scrolling="no">
-        </iframe>
+  <!-- VISTA 3: MENÚ SEMANAL -->
+  <div id="vista-menu" class="seccion-pantalla">
+    <div class="tabla-menu-contenedor">
+      <table class="tabla-menu">
+        <thead>
+          <tr>
+            <th class="col-tipo"></th>
+            <th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th><th>Sábado</th><th>Domingo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-tipo">Comida</td>
+            <td><textarea class="input-menu" id="menu-comida-lunes" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-comida-martes" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-comida-miercoles" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-comida-jueves" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-comida-viernes" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-comida-sabado" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-comida-domingo" oninput="guardarMenu()"></textarea></td>
+          </tr>
+          <tr>
+            <td class="col-tipo">Cena</td>
+            <td><textarea class="input-menu" id="menu-cena-lunes" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-cena-martes" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-cena-miercoles" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-cena-jueves" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-cena-viernes" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-cena-sabado" oninput="guardarMenu()"></textarea></td>
+            <td><textarea class="input-menu" id="menu-cena-domingo" oninput="guardarMenu()"></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- VISTA 4: RUTINARIO -->
+  <div id="vista-rutinario" class="seccion-pantalla">
+    <div class="rutina-panel">
+      <h3>Añadir Nueva Rutina</h3>
+      <div class="form-rutina">
+        <input type="text" id="rutina-nombre" placeholder="Ej: Pastilla embarazo" />
+        <input type="time" id="rutina-hora" value="08:45" />
+        <select id="rutina-frecuencia">
+          <option value="diaria">Todos los días</option>
+          <option value="laborables">Lunes a Viernes</option>
+          <option value="finsemana">Sábados y Domingos</option>
+        </select>
+        <button onclick="agregarRutina()">Guardar Rutina</button>
       </div>
     </div>
+    <ul id="lista-rutinas" class="lista-rutinas"></ul>
+  </div>
 
+  <!-- VISTA 5: CALENDARIO -->
+  <div id="vista-calendario" class="seccion-pantalla">
+    <div class="contenedor-iframe">
+      <iframe 
+        src="https://calendar.google.com/calendar/embed?src=tu_correo%40gmail.com&ctz=Europe%2FMadrid" 
+        style="border:0" 
+        frameborder="0" 
+        scrolling="no">
+      </iframe>
+    </div>
   </div>
 
   <script>
-    // Tu código JavaScript de limpieza y recordatorios se mantiene aquí sin cambios
-  </script>
+    // 1. CAMBIO DE VISTAS
+    function cambiarVista(nombreVista, e) {
+      document.querySelectorAll('.seccion-pantalla').forEach(seccion => {
+        seccion.classList.remove('activa');
+      });
+      document.querySelectorAll('.btn-nav').forEach(boton => {
+        boton.classList.remove('activo');
+      });
 
+      document.getElementById(`vista-${nombreVista}`).classList.add('activa');
+      if (e && e.currentTarget) {
+        e.currentTarget.classList.add('activo');
+      }
+    }
+
+    // 2. LÓGICA DE RUTINARIO Y ALARMAS
+    let rutinas = cargarRutinas();
+    let ultimasAlarmasEjecutadas = {};
+
+    function cargarRutinas() {
+      const guardado = localStorage.getItem("rutinas_hogar_local");
+      return guardado ? JSON.parse(guardado) : [
+        { id: 1, nombre: "Pastilla embarazo", hora: "08:45", frecuencia: "diaria" }
+      ];
+    }
+
+    function guardarRutinas() {
+      localStorage.setItem("rutinas_hogar_local", JSON.stringify(rutinas));
+    }
+
+    function agregarRutina() {
+      const nombreInput = document.getElementById("rutina-nombre");
+      const horaInput = document.getElementById("rutina-hora");
+      const frecuenciaSelect = document.getElementById("rutina-frecuencia");
+
+      const nombre = nombreInput.value.trim();
+      const hora = horaInput.value;
+      const frecuencia = frecuenciaSelect.value;
+
+      if (!nombre || !hora) return;
+
+      const nuevaRutina = {
+        id: Date.now(),
+        nombre: nombre,
+        hora: hora,
+        frecuencia: frecuencia
+      };
+
+      rutinas.push(nuevaRutina);
+      guardarRutinas();
+      renderizarRutinas();
+      nombreInput.value = "";
+    }
+
+    function eliminarRutina(id) {
+      rutinas = rutinas.filter(r => r.id !== id);
+      guardarRutinas();
+      renderizarRutinas();
+    }
+
+    function obtenerTextoFrecuencia(frecuencia) {
+      switch(frecuencia) {
+        case 'diaria': return 'Todos los días';
+        case 'laborables': return 'Lunes a Viernes';
+        case 'finsemana': return 'Sábados y Domingos';
+        default: return frecuencia;
+      }
+    }
+
+    function renderizarRutinas() {
+      const listaUl = document.getElementById("lista-rutinas");
+      listaUl.innerHTML = "";
+
+      rutinas.forEach(rutina => {
+        const li = document.createElement("li");
+        li.className = "item-rutina";
+        li.innerHTML = `
+          <div class="rutina-detalles">
+            <span class="rutina-titulo">${rutina.nombre}</span>
+            <span class="rutina-horario">⏰ ${rutina.hora} - ${obtenerTextoFrecuencia(rutina.frecuencia)}</span>
+          </div>
+          <button class="btn-borrar" onclick="eliminarRutina(${rutina.id})">Eliminar</button>
+        `;
+        listaUl.appendChild(li);
+      });
+    }
+
+    // Reproduce un sonido de alarma generado por código Web Audio API
+    function reproducirSonidoAlarma() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        
+        [0, 0.3, 0.6].forEach(delay => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = 880; // Nota La
+          gain.gain.value = 0.3;
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + delay);
+          osc.stop(ctx.currentTime + delay + 0.2);
+        });
+      } catch (e) {
+        console.log("Audio no soportado o bloqueado por el navegador");
+      }
+    }
+
+    // Comprobación periódica de alarmas
+    function verificarAlarmas() {
+      const ahora = new Date();
+      const horas = String(ahora.getHours()).padStart(2, '0');
+      const minutos = String(ahora.getMinutes()).padStart(2, '0');
+      const horaActual = `${horas}:${minutos}`;
+      const diaSemana = ahora.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+
+      rutinas.forEach(rutina => {
+        if (rutina.hora === horaActual) {
+          const claveEjecucion = `${rutina.id}_${ahora.toDateString()}_${horaActual}`;
+          
+          if (!ultimasAlarmasEjecutadas[claveEjecucion]) {
+            let debeSonar = false;
+
+            if (rutina.frecuencia === 'diaria') debeSonar = true;
+            else if (rutina.frecuencia === 'laborables' && diaSemana >= 1 && diaSemana <= 5) debeSonar = true;
+            else if (rutina.frecuencia === 'finsemana' && (diaSemana === 0 || diaSemana === 6)) debeSonar = true;
+
+            if (debeSonar) {
+              ultimasAlarmasEjecutadas[claveEjecucion] = true;
+              reproducirSonidoAlarma();
+              alert(`⏰ RECORDATORIO DE RUTINA:\n\n${rutina.nombre}`);
+            }
+          }
+        }
+      });
+    }
+
+    setInterval(verificarAlarmas, 10000); // Comprueba cada 10 segundos
+
+    // 3. GESTIÓN DEL MENÚ SEMANAL
+    const diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+    const tiposComida = ['comida', 'cena'];
+
+    function guardarMenu() {
+      const datosMenu = {};
+      tiposComida.forEach(tipo => {
+        diasSemana.forEach(dia => {
+          const id = `menu-${tipo}-${dia}`;
+          const elem = document.getElementById(id);
+          if (elem) datosMenu[id] = elem.value;
+        });
+      });
+      localStorage.setItem("menu_semanal_local", JSON.stringify(datosMenu));
+    }
+
+    function cargarMenu() {
+      const guardado = localStorage.getItem("menu_semanal_local");
+      if (!guardado) return;
+      const datosMenu = JSON.parse(guardado);
+      Object.keys(datosMenu).forEach(id => {
+        const elem = document.getElementById(id);
+        if (elem) elem.value = datosMenu[id];
+      });
+    }
+
+    // 4. CONFIGURACIÓN DE LIMPIEZA
+    const configuracionEstancias = [
+      {
+        id: "estancia_matrimonio",
+        nombre: "Habitación matrimonio",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar cristales", intervaloDias: 15 },
+          { nombre: "Cambiar sábanas", intervaloDias: 14 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_elia",
+        nombre: "Habitación Elia",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar mesa", intervaloDias: 2 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_israel",
+        nombre: "Habitación Israel",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar cristales", intervaloDias: 15 },
+          { nombre: "Cambiar sábanas", intervaloDias: 14 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_comedor",
+        nombre: "Comedor",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar muebles", intervaloDias: 7 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar cristales", intervaloDias: 15 },
+          { nombre: "Limpiar pecera", intervaloDias: 7 },
+          { nombre: "Pasar aspiradora sofá", intervaloDias: 10 },
+          { nombre: "Limpiar mesa", intervaloDias: 1 },
+          { nombre: "Limpiar sillas", intervaloDias: 7 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_bano",
+        nombre: "Baño",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Limpiar cristales", intervaloDias: 15 },
+          { nombre: "Limpiar mampara", intervaloDias: 7 },
+          { nombre: "Limpiar plato de ducha", intervaloDias: 7 },
+          { nombre: "Limpiar bidet", intervaloDias: 3 },
+          { nombre: "Limpiar wáter", intervaloDias: 2 },
+          { nombre: "Limpiar pila", intervaloDias: 2 },
+          { nombre: "Limpiar mesa", intervaloDias: 7 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 3 }
+        ]
+      },
+      {
+        id: "estancia_cocina",
+        nombre: "Cocina",
+        tareas: [
+          { nombre: "Recoger", intervaloDias: 1 },
+          { nombre: "Quitar polvo", intervaloDias: 3 },
+          { nombre: "Limpiar ventanas", intervaloDias: 30 },
+          { nombre: "Fregar", intervaloDias: 1 },
+          { nombre: "Limpiar encimera", intervaloDias: 1 },
+          { nombre: "Limpiar horno", intervaloDias: 15 },
+          { nombre: "Limpiar microondas", intervaloDias: 7 },
+          { nombre: "Limpiar thermomix", intervaloDias: 3 },
+          { nombre: "Limpiar air fryer", intervaloDias: 3 },
+          { nombre: "Limpiar nevera", intervaloDias: 15 },
+          { nombre: "Desinfectar", intervaloDias: 2 },
+          { nombre: "Pasar aspiradora", intervaloDias: 2 },
+          { nombre: "Pasar mocho", intervaloDias: 2 }
+        ]
+      }
+    ];
+
+    function generarDatosIniciales() {
+      return configuracionEstancias.map(estancia => ({
+        id: estancia.id,
+        nombre: estancia.nombre,
+        tareas: estancia.tareas.map((tarea, index) => ({
+          id: `${estancia.id}_t${index}`,
+          nombre: tarea.nombre,
+          intervaloDias: tarea.intervaloDias,
+          ultimaLimpieza: Date.now()
+        }))
+      }));
+    }
+
+    function cargarLimpieza() {
+      const guardado = localStorage.getItem("limpieza_hogar_local");
+      return guardado ? JSON.parse(guardado) : generarDatosIniciales();
+    }
+
+    function guardarLimpieza(datos) {
+      localStorage.setItem("limpieza_hogar_local", JSON.stringify(datos));
+    }
+
+    function cargarPizarra() {
+      const guardado = localStorage.getItem("pizarra_hogar_local");
+      return guardado ? JSON.parse(guardado) : { comprar: [], hacer: [] };
+    }
+
+    function guardarPizarra(datos) {
+      localStorage.setItem("pizarra_hogar_local", JSON.stringify(datos));
+    }
+
+    let estadoApp = cargarLimpieza();
+    let estadoPizarra = cargarPizarra();
+    let estanciasAbiertas = {};
+
+    function obtenerEstadoCuentaAtras(ultimaLimpieza, intervaloDias) {
+      const msPorDia = 86400000;
+      const fechaProxima = ultimaLimpieza + (intervaloDias * msPorDia);
+      const diferenciaMs = fechaProxima - Date.now();
+      const diasRestantes = Math.ceil(diferenciaMs / msPorDia);
+
+      if (diasRestantes <= 0) {
+        return { texto: `Vencido hace ${Math.abs(diasRestantes)} d`, esUrgente: true };
+      }
+      return { texto: `Próxima: en ${diasRestantes} día(s)`, esUrgente: false };
+    }
+
+    function alternarDesplegable(estanciaId) {
+      estanciasAbiertas[estanciaId] = !estanciasAbiertas[estanciaId];
+      renderizarLimpieza();
+    }
+
+    function marcarLimpio(estanciaId, tareaId) {
+      estadoApp = estadoApp.map(estancia => {
+        if (estancia.id === estanciaId) {
+          estancia.tareas = estancia.tareas.map(tarea => {
+            if (tarea.id === tareaId) tarea.ultimaLimpieza = Date.now();
+            return tarea;
+          });
+        }
+        return estancia;
+      });
+      guardarLimpieza(estadoApp);
+      renderizarLimpieza();
+    }
+
+    function cambiarFrecuencia(estanciaId, tareaId, nuevosDias) {
+      const valorNumerico = parseInt(nuevosDias, 10);
+      if (isNaN(valorNumerico) || valorNumerico < 1) return;
+
+      estadoApp = estadoApp.map(estancia => {
+        if (estancia.id === estanciaId) {
+          estancia.tareas = estancia.tareas.map(tarea => {
+            if (tarea.id === tareaId) tarea.intervaloDias = valorNumerico;
+            return tarea;
+          });
+        }
+        return estancia;
+      });
+      guardarLimpieza(estadoApp);
+      renderizarLimpieza();
+    }
+
+    function agregarElementoPizarra(tipo) {
+      const input = document.getElementById(`input-${tipo}`);
+      const texto = input.value.trim();
+      if (!texto) return;
+
+      estadoPizarra[tipo].push(texto);
+      guardarPizarra(estadoPizarra);
+      input.value = "";
+      renderizarPizarra();
+    }
+
+    function eliminarElementoPizarra(tipo, indice) {
+      estadoPizarra[tipo].splice(indice, 1);
+      guardarPizarra(estadoPizarra);
+      renderizarPizarra();
+    }
+
+    function renderizarLimpieza() {
+      const appContainer = document.getElementById("app");
+      appContainer.innerHTML = "";
+
+      estadoApp.forEach(estancia => {
+        const estaAbierta = estanciasAbiertas[estancia.id] || false;
+        const contenedorTarjeta = document.createElement("div");
+        contenedorTarjeta.className = "tarjeta-estancia";
+
+        const botonCabecera = document.createElement("button");
+        botonCabecera.className = "cabecera-desplegable";
+        botonCabecera.onclick = () => alternarDesplegable(estancia.id);
+        botonCabecera.innerHTML = `
+          <span>${estancia.nombre}</span>
+          <span>${estaAbierta ? "▲" : "▼"}</span>
+        `;
+
+        const contenedorTareas = document.createElement("div");
+        contenedorTareas.className = `contenido-tareas ${estaAbierta ? "abierto" : ""}`;
+
+        let htmlTareas = "";
+        estancia.tareas.forEach(tarea => {
+          const info = obtenerEstadoCuentaAtras(tarea.ultimaLimpieza, tarea.intervaloDias);
+          const claseEstado = info.esUrgente ? "urgente" : "al-dia";
+
+          htmlTareas += `
+            <div class="tarea-item">
+              <div class="tarea-info">
+                <div class="tarea-nombre">${tarea.nombre}</div>
+                <div class="tarea-frecuencia">
+                  Cada 
+                  <input 
+                    type="number" 
+                    class="input-frecuencia" 
+                    value="${tarea.intervaloDias}" 
+                    min="1"
+                    onchange="cambiarFrecuencia('${estancia.id}', '${tarea.id}', this.value)"
+                  /> días
+                </div>
+                <div class="tarea-estado ${claseEstado}">${info.texto}</div>
+              </div>
+              <button onclick="marcarLimpio('${estancia.id}', '${tarea.id}')">Limpiar</button>
+            </div>
+          `;
+        });
+
+        contenedorTareas.innerHTML = htmlTareas;
+        contenedorTarjeta.appendChild(botonCabecera);
+        contenedorTarjeta.appendChild(contenedorTareas);
+        appContainer.appendChild(contenedorTarjeta);
+      });
+    }
+
+    function renderizarPizarra() {
+      ["comprar", "hacer"].forEach(tipo => {
+        const listaUl = document.getElementById(`lista-${tipo}`);
+        listaUl.innerHTML = "";
+
+        estadoPizarra[tipo].forEach((texto, index) => {
+          const li = document.createElement("li");
+          li.className = "item-pizarra";
+          li.innerHTML = `
+            <span>${texto}</span>
+            <button class="btn-borrar" onclick="eliminarElementoPizarra('${tipo}', ${index})">X</button>
+          `;
+          listaUl.appendChild(li);
+        });
+      });
+    }
+
+    // Inicializar todo
+    renderizarLimpieza();
+    renderizarPizarra();
+    cargarMenu();
+    renderizarRutinas();
+  </script>
 </body>
 </html>
