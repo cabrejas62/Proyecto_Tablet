@@ -8,56 +8,94 @@
     * {
       box-sizing: border-box;
     }
+    
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f2f2f7;
+      /* Fondo con degradado suave en tonos azules */
+      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
       margin: 0;
       padding: 16px;
-      color: #1c1c1e;
+      color: #0f172a;
+      min-height: 100vh;
     }
     
+    /* Encabezado principal */
     h1 {
       text-align: center;
-      font-size: 22px;
+      font-size: 24px;
       margin-top: 0;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      color: #1e3a8a;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* ESTILOS DE ÍCONOS SVG GENERALES */
+    .icono-svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      vertical-align: middle;
+      display: inline-block;
+    }
+    
+    .icono-grande {
+      width: 22px;
+      height: 22px;
     }
 
     /* BARRA DE NAVEGACIÓN */
     .navegacion {
       display: flex;
       justify-content: center;
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: 10px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
     .btn-nav {
       flex: 1;
-      min-width: 120px;
-      max-width: 180px;
-      padding: 12px 8px;
+      min-width: 130px;
+      max-width: 190px;
+      padding: 12px 10px;
       font-size: 14px;
       font-weight: bold;
-      background-color: #e5e5ea;
-      color: #007aff;
-      border: none;
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(5px);
+      color: #0369a1;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 14px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-nav:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.95);
     }
     .btn-nav.activo {
-      background-color: #007aff;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: #ffffff;
-      box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(3, 105, 161, 0.35);
+      border: none;
     }
 
     /* CONTENEDOR DE SECCIONES */
     .seccion-pantalla {
       display: none;
-      height: calc(100vh - 120px);
+      height: calc(100vh - 130px);
       max-width: 1200px;
       margin: 0 auto;
       overflow-y: auto;
+      padding-right: 4px;
     }
     .seccion-pantalla.activa {
       display: block;
@@ -65,30 +103,38 @@
 
     /* ESTILOS DE LIMPIEZA */
     .tarjeta-estancia {
-      background-color: #ffffff;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
       overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.7);
     }
     .cabecera-desplegable {
       width: 100%;
-      background-color: #ffffff;
+      background: transparent;
       border: none;
-      padding: 16px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #007aff;
+      padding: 16px 20px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #0369a1;
       text-align: left;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
     }
+    .titulo-estancia {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
     .contenido-tareas {
       display: none;
-      padding: 0 16px 16px 16px;
-      border-top: 1px solid #f2f2f7;
+      padding: 0 20px 16px 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      background: rgba(255, 255, 255, 0.5);
     }
     .contenido-tareas.abierto {
       display: block;
@@ -98,99 +144,233 @@
       justify-content: space-between;
       align-items: center;
       padding: 12px 0;
-      border-bottom: 1px dashed #e5e5ea;
+      border-bottom: 1px dashed #cbd5e1;
     }
     .tarea-item:last-child {
       border-bottom: none;
     }
     .tarea-info { flex: 1; }
-    .tarea-nombre { font-weight: 600; font-size: 15px; }
-    .tarea-frecuencia { font-size: 12px; color: #8e8e93; margin-top: 2px; }
-    .input-frecuencia { width: 45px; padding: 2px; font-size: 12px; border: 1px solid #c7c7cc; border-radius: 4px; text-align: center; }
-    .tarea-estado { font-size: 12px; margin-top: 2px; }
-    .urgente { color: #ff3b30; font-weight: bold; }
-    .al-dia { color: #34c759; font-weight: 500; }
+    .tarea-nombre { font-weight: 600; font-size: 15px; color: #0f172a; }
+    .tarea-frecuencia { font-size: 13px; color: #64748b; margin-top: 2px; }
+    .input-frecuencia {
+      width: 45px;
+      padding: 3px;
+      font-size: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      text-align: center;
+      background: #ffffff;
+    }
+    .tarea-estado { font-size: 13px; margin-top: 3px; }
+    .urgente { color: #dc2626; font-weight: bold; }
+    .al-dia { color: #16a34a; font-weight: 600; }
 
     /* ESTILOS DE RECORDATORIOS */
     .pizarra-contenedor { display: flex; gap: 16px; height: 100%; }
     .columna-pizarra {
-      flex: 1; background-color: #ffffff; border-radius: 12px; padding: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column;
+      flex: 1;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(255, 255, 255, 0.7);
     }
     .columna-titulo {
-      font-weight: bold; font-size: 18px; text-align: center; margin-bottom: 12px;
-      border-bottom: 2px solid #f2f2f7; padding-bottom: 8px;
+      font-weight: 700;
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 14px;
+      color: #0369a1;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    .form-pizarra { display: flex; gap: 8px; margin-bottom: 12px; }
-    .input-pizarra { flex: 1; padding: 8px; border: 1px solid #c7c7cc; border-radius: 6px; font-size: 14px; }
+    .form-pizarra { display: flex; gap: 8px; margin-bottom: 14px; }
+    .input-pizarra {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      background: #ffffff;
+      outline: none;
+    }
+    .input-pizarra:focus { border-color: #0284c7; }
     .lista-pizarra { list-style: none; padding: 0; margin: 0; overflow-y: auto; }
-    .item-pizarra { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f2f2f7; font-size: 14px; }
+    .item-pizarra {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.75);
+      margin-bottom: 6px;
+      border-radius: 8px;
+      font-size: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
 
     /* ESTILOS DEL MENÚ SEMANAL */
-    .tabla-menu-contenedor { background-color: #ffffff; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow-x: auto; }
-    .tabla-menu { width: 100%; border-collapse: collapse; min-width: 700px; }
-    .tabla-menu th, .tabla-menu td { border: 1px solid #e5e5ea; padding: 8px; text-align: center; }
-    .tabla-menu th { background-color: #007aff; color: #ffffff; font-size: 14px; text-transform: uppercase; }
-    .tabla-menu .col-tipo { background-color: #f2f2f7; font-weight: bold; color: #1c1c1e; width: 90px; }
-    .input-menu { width: 100%; height: 120px; border: none; resize: none; font-family: inherit; font-size: 13px; padding: 4px; background: transparent; outline: none; }
-    .input-menu:focus { background-color: #f2f2f7; border-radius: 6px; }
+    .tabla-menu-contenedor {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+    .tabla-menu { width: 100%; border-collapse: collapse; min-width: 750px; }
+    .tabla-menu th, .tabla-menu td {
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+      text-align: center;
+    }
+    .tabla-menu th {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      font-size: 14px;
+      border-radius: 6px 6px 0 0;
+    }
+    .tabla-menu .col-tipo {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #334155;
+      width: 100px;
+    }
+    .input-menu {
+      width: 100%;
+      height: 110px;
+      border: 1px solid transparent;
+      resize: none;
+      font-family: inherit;
+      font-size: 13px;
+      padding: 6px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .input-menu:focus {
+      background: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 0 5px rgba(2, 132, 199, 0.3);
+    }
 
     /* ESTILOS DE RUTINARIO */
     .rutina-panel {
-      background-color: #ffffff;
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
       margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
     }
-    .form-rutina {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
+    .rutina-panel h3 { margin-top: 0; color: #0369a1; display: flex; align-items: center; gap: 8px; }
+    .form-rutina { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
     .form-rutina input, .form-rutina select {
-      padding: 8px 12px;
-      border: 1px solid #c7c7cc;
-      border-radius: 8px;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
       font-size: 14px;
+      background: #ffffff;
+      outline: none;
     }
     .form-rutina input[type="text"] { flex: 2; min-width: 200px; }
     .lista-rutinas { list-style: none; padding: 0; margin: 0; }
     .item-rutina {
-      background-color: #ffffff;
-      border-radius: 10px;
-      padding: 12px 16px;
-      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      border: 1px solid rgba(255, 255, 255, 0.8);
     }
     .rutina-detalles { display: flex; flex-direction: column; gap: 4px; }
-    .rutina-titulo { font-weight: bold; font-size: 16px; }
-    .rutina-horario { font-size: 13px; color: #8e8e93; }
+    .rutina-titulo { font-weight: 700; font-size: 16px; color: #0f172a; }
+    .rutina-horario { font-size: 13px; color: #64748b; display: flex; align-items: center; gap: 4px; }
 
     /* ESTILOS DEL CALENDARIO */
-    .contenedor-iframe { width: 100%; height: 100%; background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; }
-    iframe { width: 100%; height: 100%; border: 0; }
+    .contenedor-iframe {
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+    .contenedor-iframe iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
 
-    /* BOTONES GENERALES */
-    button { background-color: #007aff; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    button.btn-borrar { background-color: #ff3b30; padding: 4px 8px; font-size: 12px; }
+    /* BOTONES GENERALES DE ACCIÓN EN AMARILLO */
+    button {
+      background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+      color: #0f172a;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(202, 138, 4, 0.3);
+    }
+    button:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+      background: linear-gradient(135deg, #facc15 0%, #eab308 100%);
+    }
+    button.btn-borrar {
+      background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+      color: #7f1d1d;
+      padding: 6px 10px;
+      font-size: 12px;
+      box-shadow: none;
+    }
   </style>
 </head>
 <body>
 
-  <h1>CASA CABREJAS BENAVENT</h1>
+  <h1>
+    <!-- Icono Casa SVG -->
+    <svg class="icono-svg icono-grande" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    CASA CABREJAS BENAVENT
+  </h1>
 
   <!-- BARRA DE NAVEGACIÓN -->
   <div class="navegacion">
-    <button class="btn-nav activo" onclick="cambiarVista('limpieza', event)">LIMPIEZA</button>
-    <button class="btn-nav" onclick="cambiarVista('recordatorios', event)">RECORDATORIOS</button>
-    <button class="btn-nav" onclick="cambiarVista('menu', event)">MENÚ SEMANAL</button>
-    <button class="btn-nav" onclick="cambiarVista('rutinario', event)">RUTINARIO</button>
-    <button class="btn-nav" onclick="cambiarVista('calendario', event)">CALENDARIO</button>
+    <button class="btn-nav activo" onclick="cambiarVista('limpieza', event)">
+      <svg class="icono-svg" viewBox="0 0 24 24"><path d="M19.36 2.72l-1.08 1.08 2.92 2.92 1.08-1.08c.39-.39.39-1.02 0-1.41l-1.51-1.51c-.39-.39-1.02-.39-1.41 0zM17.13 4.93l-11.8 11.8c-.09.09-.15.21-.17.34l-.82 4.49c-.05.29.04.58.24.78.18.18.43.28.7.28.05 0 .11 0 .16-.01l4.49-.82c.13-.02.25-.08.34-.17l11.8-11.8-4.94-4.89z"/></svg>
+      LIMPIEZA
+    </button>
+    <button class="btn-nav" onclick="cambiarVista('recordatorios', event)">
+      <svg class="icono-svg" viewBox="0 0 24 24"><path d="M16 9V4l1 0c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1l1 0v5c0 1.66-1.34 3-3 3v2h5.97v7l1.03 1 1.03-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></svg>
+      RECORDATORIOS
+    </button>
+    <button class="btn-nav" onclick="cambiarVista('menu', event)">
+      <svg class="icono-svg" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.46 3.9 3.45 4.35L6 22h2l.55-8.65C10.54 12.9 12 11.12 12 9V2h-1v7zm8-7h-2c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h1v10h2V2z"/></svg>
+      MENÚ SEMANAL
+    </button>
+    <button class="btn-nav" onclick="cambiarVista('rutinario', event)">
+      <svg class="icono-svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm3.3 14.71L11 12.41V7h2v4.59l3.71 3.71-1.42 1.41z"/></svg>
+      RUTINARIO
+    </button>
+    <button class="btn-nav" onclick="cambiarVista('calendario', event)">
+      <svg class="icono-svg" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+      CALENDARIO
+    </button>
   </div>
 
   <!-- VISTA 1: LIMPIEZA -->
@@ -202,18 +382,24 @@
   <div id="vista-recordatorios" class="seccion-pantalla">
     <div class="pizarra-contenedor">
       <div class="columna-pizarra">
-        <div class="columna-titulo">Comprar</div>
+        <div class="columna-titulo">
+          <svg class="icono-svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          Lista de Comprar
+        </div>
         <div class="form-pizarra">
-          <input type="text" id="input-comprar" class="input-pizarra" placeholder="Añadir..." />
+          <input type="text" id="input-comprar" class="input-pizarra" placeholder="Añadir artículo..." onkeydown="detectarEnter(event, 'comprar')" />
           <button onclick="agregarElementoPizarra('comprar')">+</button>
         </div>
         <ul id="lista-comprar" class="lista-pizarra"></ul>
       </div>
 
       <div class="columna-pizarra">
-        <div class="columna-titulo">Hacer</div>
+        <div class="columna-titulo">
+          <svg class="icono-svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          Lista de Hacer
+        </div>
         <div class="form-pizarra">
-          <input type="text" id="input-hacer" class="input-pizarra" placeholder="Añadir..." />
+          <input type="text" id="input-hacer" class="input-pizarra" placeholder="Añadir tarea..." onkeydown="detectarEnter(event, 'hacer')" />
           <button onclick="agregarElementoPizarra('hacer')">+</button>
         </div>
         <ul id="lista-hacer" class="lista-pizarra"></ul>
@@ -227,13 +413,16 @@
       <table class="tabla-menu">
         <thead>
           <tr>
-            <th class="col-tipo"></th>
+            <td class="col-tipo"></td>
             <th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th><th>Sábado</th><th>Domingo</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="col-tipo">Comida</td>
+            <td class="col-tipo">
+              <svg class="icono-svg" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z"/></svg>
+              Comida
+            </td>
             <td><textarea class="input-menu" id="menu-comida-lunes" oninput="guardarMenu()"></textarea></td>
             <td><textarea class="input-menu" id="menu-comida-martes" oninput="guardarMenu()"></textarea></td>
             <td><textarea class="input-menu" id="menu-comida-miercoles" oninput="guardarMenu()"></textarea></td>
@@ -243,7 +432,10 @@
             <td><textarea class="input-menu" id="menu-comida-domingo" oninput="guardarMenu()"></textarea></td>
           </tr>
           <tr>
-            <td class="col-tipo">Cena</td>
+            <td class="col-tipo">
+              <svg class="icono-svg" viewBox="0 0 24 24"><path d="M12.3 2c.43 0 .77.35.75.78-.29 5.08 3.65 9.15 8.74 8.97.43-.01.78.33.78.76-.03 5.48-4.5 9.95-9.98 9.99-5.74.04-10.42-4.59-10.42-10.31C2.17 6.64 6.74 2 12.3 2z"/></svg>
+              Cena
+            </td>
             <td><textarea class="input-menu" id="menu-cena-lunes" oninput="guardarMenu()"></textarea></td>
             <td><textarea class="input-menu" id="menu-cena-martes" oninput="guardarMenu()"></textarea></td>
             <td><textarea class="input-menu" id="menu-cena-miercoles" oninput="guardarMenu()"></textarea></td>
@@ -260,7 +452,10 @@
   <!-- VISTA 4: RUTINARIO -->
   <div id="vista-rutinario" class="seccion-pantalla">
     <div class="rutina-panel">
-      <h3>Añadir Nueva Rutina</h3>
+      <h3>
+        <svg class="icono-svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Añadir Nueva Rutina
+      </h3>
       <div class="form-rutina">
         <input type="text" id="rutina-nombre" placeholder="Ej: Pastilla embarazo" />
         <input type="time" id="rutina-hora" value="08:45" />
@@ -278,12 +473,7 @@
   <!-- VISTA 5: CALENDARIO -->
   <div id="vista-calendario" class="seccion-pantalla">
     <div class="contenedor-iframe">
-      <iframe 
-        src="https://calendar.google.com/calendar/embed?src=tu_correo%40gmail.com&ctz=Europe%2FMadrid" 
-        style="border:0" 
-        frameborder="0" 
-        scrolling="no">
-      </iframe>
+      <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FMadrid&showPrint=0&src=Y2FicmVqYXM2MkBnbWFpbC5jb20&src=ZGQ5ZDczNTYwZGM3ODViZjkyYWRiMDA2MjU0Y2M0MmI5YmI3OWRmZDE4N2FiZjBhOGMxNWFmMWEwNGYwMzNmN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NTZmOGI3NDRiZjcyNWU3YzE0OTNkNzEyOTAzNWQ1ZjFmOGU2YjgyZmNjYjI5NDczNmQ3YWRkNzNmMjg0N2FlNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2U3NjFjYTYyOGNlZTFkMzE2YTFjZWVhYjhjNjNmMjFkMTVkMjAxMWIxODcwNDM3NzdlMGNiZGQ1ZGY1YzE2ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YTY4MWMwNjdjMmU5OGFkNTMyYTdlMTQxNmQ1OWE4N2IyN2QyMGUyNTAwMzVhOGVjYzJmZDRjOWVmMTBiZTQzMUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YjJlOTA1YmFlYzk0MzRmZWRhYzJhM2Y3ZmQ1NTk5YTAxMThkMTZkZGE5NTEzYWJjYjVjNjdlMTcyNTQzM2U4MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Yjg6NzVkNWIyNDVlMTk2NjQ5NDVmOTc1NTVjMWYyZjU1NzhhYzMxNDgzMWE4M2FkZDRkMjAzNmZlOTA1OTZiNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=OGU1M2NjYTVhZjEwMjBkODk5NzRhNTZlNDQ0NmMyMTBlODFkYmI0MzZhODQ5MTM5ZTI4OGIwYWM2YTdiZTcwNkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MmIzZjkwNzgwMWVjY2Q0MDIxMzJjYTQ6MTQxNzJiZmMxNDhkMGM5YmRiMTI5ZmYyZDdjN2MxNzIxMzQyOWQxNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MzM6OTE5MjI1YzExYjg1MmE5ZDBiMTk4YTAzYjU0YjQ0YmUxYzQ3YTU1OGRlMDQ4MTI3ODIxMjY4NGRmN2NjMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuY2hyaXN0aWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuc3BhaW4jaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285f4&color=%23616161&color=%23ad1457&color=%23c0ca33&color=%239e69af&color=%23f6bf26&color=%23d50000&color=%23ef6c00&color=%2333b679&color=%234285f4&color=%230b8043&color=%23f6bf26" style="border:0" frameborder="0" scrolling="no"></iframe>
     </div>
   </div>
 
@@ -367,15 +557,17 @@
         li.innerHTML = `
           <div class="rutina-detalles">
             <span class="rutina-titulo">${rutina.nombre}</span>
-            <span class="rutina-horario">⏰ ${rutina.hora} - ${obtenerTextoFrecuencia(rutina.frecuencia)}</span>
+            <span class="rutina-horario">
+              <svg class="icono-svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm3.3 14.71L11 12.41V7h2v4.59l3.71 3.71-1.42 1.41z"/></svg>
+              ${rutina.hora} - ${obtenerTextoFrecuencia(rutina.frecuencia)}
+            </span>
           </div>
-          <button class="btn-borrar" onclick="eliminarRutina(${rutina.id})">Eliminar</button>
+          <button class="btn-borrar" onclick="eliminarRutina(${rutina.id})">Borrar</button>
         `;
         listaUl.appendChild(li);
       });
     }
 
-    // Reproduce un sonido de alarma generado por código Web Audio API
     function reproducirSonidoAlarma() {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -385,7 +577,7 @@
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sine';
-          osc.frequency.value = 880; // Nota La
+          osc.frequency.value = 880;
           gain.gain.value = 0.3;
           osc.connect(gain);
           gain.connect(ctx.destination);
@@ -397,13 +589,12 @@
       }
     }
 
-    // Comprobación periódica de alarmas
     function verificarAlarmas() {
       const ahora = new Date();
       const horas = String(ahora.getHours()).padStart(2, '0');
       const minutos = String(ahora.getMinutes()).padStart(2, '0');
       const horaActual = `${horas}:${minutos}`;
-      const diaSemana = ahora.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+      const diaSemana = ahora.getDay();
 
       rutinas.forEach(rutina => {
         if (rutina.hora === horaActual) {
@@ -419,14 +610,14 @@
             if (debeSonar) {
               ultimasAlarmasEjecutadas[claveEjecucion] = true;
               reproducirSonidoAlarma();
-              alert(`⏰ RECORDATORIO DE RUTINA:\n\n${rutina.nombre}`);
+              alert(`RECORDATORIO DE RUTINA:\n\n${rutina.nombre}`);
             }
           }
         }
       });
     }
 
-    setInterval(verificarAlarmas, 10000); // Comprueba cada 10 segundos
+    setInterval(verificarAlarmas, 10000);
 
     // 3. GESTIÓN DEL MENÚ SEMANAL
     const diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
@@ -454,11 +645,19 @@
       });
     }
 
-    // 4. CONFIGURACIÓN DE LIMPIEZA
+    // 4. CONFIGURACIÓN DE LIMPIEZA CON ÍCONOS SVG
+    const svgCama = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>`;
+    const svgJuguete = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
+    const svgMando = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
+    const svgSofa = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M4 18v3h2v-3h12v3h2v-3c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2zM6 6h12v2H6z"/></svg>`;
+    const svgBano = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M21 10c-1.1 0-2 .9-2 2v3H5v-3c0-1.1-.9-2-2-2s-2 .9-2 2v5c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-5c0-1.1-.9-2-2-2zM7 9c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>`;
+    const svgCocina = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2z"/></svg>`;
+
     const configuracionEstancias = [
       {
         id: "estancia_matrimonio",
         nombre: "Habitación matrimonio",
+        iconoSvg: svgCama,
         tareas: [
           { nombre: "Recoger", intervaloDias: 1 },
           { nombre: "Quitar polvo", intervaloDias: 3 },
@@ -472,6 +671,7 @@
       {
         id: "estancia_elia",
         nombre: "Habitación Elia",
+        iconoSvg: svgJuguete,
         tareas: [
           { nombre: "Recoger", intervaloDias: 1 },
           { nombre: "Quitar polvo", intervaloDias: 3 },
@@ -484,6 +684,7 @@
       {
         id: "estancia_israel",
         nombre: "Habitación Israel",
+        iconoSvg: svgMando,
         tareas: [
           { nombre: "Recoger", intervaloDias: 1 },
           { nombre: "Quitar polvo", intervaloDias: 3 },
@@ -497,6 +698,7 @@
       {
         id: "estancia_comedor",
         nombre: "Comedor",
+        iconoSvg: svgSofa,
         tareas: [
           { nombre: "Recoger", intervaloDias: 1 },
           { nombre: "Quitar polvo", intervaloDias: 3 },
@@ -514,6 +716,7 @@
       {
         id: "estancia_bano",
         nombre: "Baño",
+        iconoSvg: svgBano,
         tareas: [
           { nombre: "Recoger", intervaloDias: 1 },
           { nombre: "Quitar polvo", intervaloDias: 3 },
@@ -532,6 +735,7 @@
       {
         id: "estancia_cocina",
         nombre: "Cocina",
+        iconoSvg: svgCocina,
         tareas: [
           { nombre: "Recoger", intervaloDias: 1 },
           { nombre: "Quitar polvo", intervaloDias: 3 },
@@ -550,15 +754,17 @@
       }
     ];
 
+    // GENERAMOS LOS DATOS CON "ultimaLimpieza: 0" PARA QUE APAREZCAN PENDIENTES DE INICIO
     function generarDatosIniciales() {
       return configuracionEstancias.map(estancia => ({
         id: estancia.id,
         nombre: estancia.nombre,
+        iconoSvg: estancia.iconoSvg,
         tareas: estancia.tareas.map((tarea, index) => ({
           id: `${estancia.id}_t${index}`,
           nombre: tarea.nombre,
           intervaloDias: tarea.intervaloDias,
-          ultimaLimpieza: Date.now()
+          ultimaLimpieza: 0 // Cambiado a 0 para que todas estén pendientes
         }))
       }));
     }
@@ -581,6 +787,9 @@
       localStorage.setItem("pizarra_hogar_local", JSON.stringify(datos));
     }
 
+    // Reiniciamos los datos del almacenamiento para forzar que aplique la nueva fecha
+    localStorage.removeItem("limpieza_hogar_local");
+
     let estadoApp = cargarLimpieza();
     let estadoPizarra = cargarPizarra();
     let estanciasAbiertas = {};
@@ -592,9 +801,9 @@
       const diasRestantes = Math.ceil(diferenciaMs / msPorDia);
 
       if (diasRestantes <= 0) {
-        return { texto: `Vencido hace ${Math.abs(diasRestantes)} d`, esUrgente: true };
+        return { texto: `⚠️ Pendiente (hace ${Math.abs(diasRestantes)} d)`, esUrgente: true };
       }
-      return { texto: `Próxima: en ${diasRestantes} día(s)`, esUrgente: false };
+      return { texto: `✅ Próxima: en ${diasRestantes} día(s)`, esUrgente: false };
     }
 
     function alternarDesplegable(estanciaId) {
@@ -650,6 +859,13 @@
       renderizarPizarra();
     }
 
+    function detectarEnter(evento, tipo) {
+      if (evento.key === "Enter") {
+        evento.preventDefault();
+        agregarElementoPizarra(tipo);
+      }
+    }
+
     function renderizarLimpieza() {
       const appContainer = document.getElementById("app");
       appContainer.innerHTML = "";
@@ -663,7 +879,7 @@
         botonCabecera.className = "cabecera-desplegable";
         botonCabecera.onclick = () => alternarDesplegable(estancia.id);
         botonCabecera.innerHTML = `
-          <span>${estancia.nombre}</span>
+          <span class="titulo-estancia">${estancia.iconoSvg || ''} ${estancia.nombre}</span>
           <span>${estaAbierta ? "▲" : "▼"}</span>
         `;
 
@@ -691,7 +907,7 @@
                 </div>
                 <div class="tarea-estado ${claseEstado}">${info.texto}</div>
               </div>
-              <button onclick="marcarLimpio('${estancia.id}', '${tarea.id}')">Limpiar</button>
+              <button onclick="marcarLimpio('${estancia.id}', '${tarea.id}')">Hecho</button>
             </div>
           `;
         });
@@ -713,7 +929,7 @@
           li.className = "item-pizarra";
           li.innerHTML = `
             <span>${texto}</span>
-            <button class="btn-borrar" onclick="eliminarElementoPizarra('${tipo}', ${index})">X</button>
+            <button class="btn-borrar" onclick="eliminarElementoPizarra('${tipo}', ${index})">✕</button>
           `;
           listaUl.appendChild(li);
         });
