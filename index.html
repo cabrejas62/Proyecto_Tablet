@@ -5,13 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CASA CABREJAS BENAVENT</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      /* Fondo con degradado suave en tonos azules */
       background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
       margin: 0;
       padding: 16px;
@@ -19,7 +16,7 @@
       min-height: 100vh;
     }
     
-    /* Encabezado principal */
+    /* Encabezado principal y edición de título */
     h1 {
       text-align: center;
       font-size: 24px;
@@ -35,6 +32,22 @@
       gap: 10px;
     }
 
+    .btn-editar-titulo {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      box-shadow: none;
+      padding: 4px;
+      color: #0369a1;
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn-editar-titulo:hover {
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      transform: none;
+    }
+
     /* ESTILOS DE ÍCONOS SVG GENERALES */
     .icono-svg {
       width: 18px;
@@ -43,11 +56,7 @@
       vertical-align: middle;
       display: inline-block;
     }
-    
-    .icono-grande {
-      width: 22px;
-      height: 22px;
-    }
+    .icono-grande { width: 22px; height: 22px; }
 
     /* BARRA DE NAVEGACIÓN */
     .navegacion {
@@ -77,10 +86,7 @@
       justify-content: center;
       gap: 8px;
     }
-    .btn-nav:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.95);
-    }
+    .btn-nav:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.95); }
     .btn-nav.activo {
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: #ffffff;
@@ -97,9 +103,7 @@
       overflow-y: auto;
       padding-right: 4px;
     }
-    .seccion-pantalla.activa {
-      display: block;
-    }
+    .seccion-pantalla.activa { display: block; }
 
     /* ESTILOS DE LIMPIEZA */
     .tarjeta-estancia {
@@ -124,21 +128,18 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
+      box-shadow: none;
     }
-    .titulo-estancia {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .titulo-estancia { display: flex; align-items: center; gap: 10px; }
+    .acciones-estancia { display: flex; align-items: center; gap: 8px; }
+
     .contenido-tareas {
       display: none;
       padding: 0 20px 16px 20px;
       border-top: 1px solid rgba(0, 0, 0, 0.05);
       background: rgba(255, 255, 255, 0.5);
     }
-    .contenido-tareas.abierto {
-      display: block;
-    }
+    .contenido-tareas.abierto { display: block; }
     .tarea-item {
       display: flex;
       justify-content: space-between;
@@ -146,9 +147,7 @@
       padding: 12px 0;
       border-bottom: 1px dashed #cbd5e1;
     }
-    .tarea-item:last-child {
-      border-bottom: none;
-    }
+    .tarea-item:last-child { border-bottom: none; }
     .tarea-info { flex: 1; }
     .tarea-nombre { font-weight: 600; font-size: 15px; color: #0f172a; }
     .tarea-frecuencia { font-size: 13px; color: #64748b; margin-top: 2px; }
@@ -165,7 +164,21 @@
     .urgente { color: #dc2626; font-weight: bold; }
     .al-dia { color: #16a34a; font-weight: 600; }
 
-    /* ESTILOS DE RECORDATORIOS */
+    .panel-nueva-estancia {
+      margin-bottom: 16px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .form-nueva-tarea {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    /* RECORDATORIOS */
     .pizarra-contenedor { display: flex; gap: 16px; height: 100%; }
     .columna-pizarra {
       flex: 1;
@@ -201,7 +214,6 @@
       background: #ffffff;
       outline: none;
     }
-    .input-pizarra:focus { border-color: #0284c7; }
     .lista-pizarra { list-style: none; padding: 0; margin: 0; overflow-y: auto; }
     .item-pizarra {
       display: flex;
@@ -215,7 +227,7 @@
       border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
-    /* ESTILOS DEL MENÚ SEMANAL */
+    /* MENÚ */
     .tabla-menu-contenedor {
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(10px);
@@ -226,23 +238,9 @@
       border: 1px solid rgba(255, 255, 255, 0.7);
     }
     .tabla-menu { width: 100%; border-collapse: collapse; min-width: 750px; }
-    .tabla-menu th, .tabla-menu td {
-      border: 1px solid #e2e8f0;
-      padding: 10px;
-      text-align: center;
-    }
-    .tabla-menu th {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      color: #ffffff;
-      font-size: 14px;
-      border-radius: 6px 6px 0 0;
-    }
-    .tabla-menu .col-tipo {
-      background: #f1f5f9;
-      font-weight: 700;
-      color: #334155;
-      width: 100px;
-    }
+    .tabla-menu th, .tabla-menu td { border: 1px solid #e2e8f0; padding: 10px; text-align: center; }
+    .tabla-menu th { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; font-size: 14px; }
+    .tabla-menu .col-tipo { background: #f1f5f9; font-weight: 700; color: #334155; width: 100px; }
     .input-menu {
       width: 100%;
       height: 110px;
@@ -254,15 +252,9 @@
       background: rgba(255, 255, 255, 0.6);
       border-radius: 8px;
       outline: none;
-      transition: all 0.2s;
-    }
-    .input-menu:focus {
-      background: #ffffff;
-      border-color: #0284c7;
-      box-shadow: 0 0 5px rgba(2, 132, 199, 0.3);
     }
 
-    /* ESTILOS DE RUTINARIO */
+    /* RUTINARIO */
     .rutina-panel {
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(10px);
@@ -292,14 +284,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
       border: 1px solid rgba(255, 255, 255, 0.8);
     }
     .rutina-detalles { display: flex; flex-direction: column; gap: 4px; }
     .rutina-titulo { font-weight: 700; font-size: 16px; color: #0f172a; }
     .rutina-horario { font-size: 13px; color: #64748b; display: flex; align-items: center; gap: 4px; }
 
-    /* ESTILOS DEL CALENDARIO */
+    /* CALENDARIO COMPLETO */
     .contenedor-iframe {
       width: 100%;
       height: 100%;
@@ -309,13 +300,9 @@
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.7);
     }
-    .contenedor-iframe iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+    .contenedor-iframe iframe { width: 100%; height: 100%; border: none; }
 
-    /* BOTONES GENERALES DE ACCIÓN EN AMARILLO */
+    /* BOTONES GENERALES */
     button {
       background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
       color: #0f172a;
@@ -327,11 +314,7 @@
       transition: all 0.2s ease;
       box-shadow: 0 2px 6px rgba(202, 138, 4, 0.3);
     }
-    button:hover {
-      opacity: 0.95;
-      transform: translateY(-1px);
-      background: linear-gradient(135deg, #facc15 0%, #eab308 100%);
-    }
+    button:hover { opacity: 0.95; transform: translateY(-1px); }
     button.btn-borrar {
       background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
       color: #7f1d1d;
@@ -339,14 +322,21 @@
       font-size: 12px;
       box-shadow: none;
     }
+    button.btn-secundario {
+      background: #e2e8f0;
+      color: #334155;
+      box-shadow: none;
+    }
   </style>
 </head>
 <body>
 
   <h1>
-    <!-- Icono Casa SVG -->
     <svg class="icono-svg icono-grande" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    CASA CABREJAS BENAVENT
+    <span id="texto-titulo-hogar">CASA CABREJAS BENAVENT</span>
+    <button class="btn-editar-titulo" onclick="editarTituloHogar()" title="Editar título del hogar">
+      <svg class="icono-svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+    </button>
   </h1>
 
   <!-- BARRA DE NAVEGACIÓN -->
@@ -375,6 +365,10 @@
 
   <!-- VISTA 1: LIMPIEZA -->
   <div id="vista-limpieza" class="seccion-pantalla activa">
+    <div class="panel-nueva-estancia">
+      <input type="text" id="input-nueva-estancia" class="input-pizarra" placeholder="Nombre de la nueva estancia..." />
+      <button onclick="agregarEstancia()">+ Nueva Estancia</button>
+    </div>
     <div id="app"></div>
   </div>
 
@@ -382,10 +376,7 @@
   <div id="vista-recordatorios" class="seccion-pantalla">
     <div class="pizarra-contenedor">
       <div class="columna-pizarra">
-        <div class="columna-titulo">
-          <svg class="icono-svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-          Lista de Comprar
-        </div>
+        <div class="columna-titulo">Lista de Comprar</div>
         <div class="form-pizarra">
           <input type="text" id="input-comprar" class="input-pizarra" placeholder="Añadir artículo..." onkeydown="detectarEnter(event, 'comprar')" />
           <button onclick="agregarElementoPizarra('comprar')">+</button>
@@ -394,10 +385,7 @@
       </div>
 
       <div class="columna-pizarra">
-        <div class="columna-titulo">
-          <svg class="icono-svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-          Lista de Hacer
-        </div>
+        <div class="columna-titulo">Lista de Hacer</div>
         <div class="form-pizarra">
           <input type="text" id="input-hacer" class="input-pizarra" placeholder="Añadir tarea..." onkeydown="detectarEnter(event, 'hacer')" />
           <button onclick="agregarElementoPizarra('hacer')">+</button>
@@ -419,10 +407,7 @@
         </thead>
         <tbody>
           <tr>
-            <td class="col-tipo">
-              <svg class="icono-svg" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z"/></svg>
-              Comida
-            </td>
+            <td class="col-tipo">Comida</td>
             <td><textarea class="input-menu" id="menu-comida-lunes" oninput="guardarMenu()"></textarea></td>
             <td><textarea class="input-menu" id="menu-comida-martes" oninput="guardarMenu()"></textarea></td>
             <td><textarea class="input-menu" id="menu-comida-miercoles" oninput="guardarMenu()"></textarea></td>
@@ -432,10 +417,7 @@
             <td><textarea class="input-menu" id="menu-comida-domingo" oninput="guardarMenu()"></textarea></td>
           </tr>
           <tr>
-            <td class="col-tipo">
-              <svg class="icono-svg" viewBox="0 0 24 24"><path d="M12.3 2c.43 0 .77.35.75.78-.29 5.08 3.65 9.15 8.74 8.97.43-.01.78.33.78.76-.03 5.48-4.5 9.95-9.98 9.99-5.74.04-10.42-4.59-10.42-10.31C2.17 6.64 6.74 2 12.3 2z"/></svg>
-              Cena
-            </td>
+            <td class="col-tipo">Cena</td>
             <td><textarea class="input-menu" id="menu-cena-lunes" oninput="guardarMenu()"></textarea></td>
             <td><textarea class="input-menu" id="menu-cena-martes" oninput="guardarMenu()"></textarea></td>
             <td><textarea class="input-menu" id="menu-cena-miercoles" oninput="guardarMenu()"></textarea></td>
@@ -452,10 +434,7 @@
   <!-- VISTA 4: RUTINARIO -->
   <div id="vista-rutinario" class="seccion-pantalla">
     <div class="rutina-panel">
-      <h3>
-        <svg class="icono-svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-        Añadir Nueva Rutina
-      </h3>
+      <h3>Añadir Nueva Rutina</h3>
       <div class="form-rutina">
         <input type="text" id="rutina-nombre" placeholder="Ej: Pastilla embarazo" />
         <input type="time" id="rutina-hora" value="08:45" />
@@ -465,6 +444,7 @@
           <option value="finsemana">Sábados y Domingos</option>
         </select>
         <button onclick="agregarRutina()">Guardar Rutina</button>
+        <button class="btn-secundario" onclick="activarPermisoAudio()">🔔 Activar Sonido Alarma</button>
       </div>
     </div>
     <ul id="lista-rutinas" class="lista-rutinas"></ul>
@@ -478,31 +458,50 @@
         style="border:0" 
         frameborder="0" 
         scrolling="no"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-        loading="lazy">
+        allow="autoplay; fullscreen"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals">
       </iframe>
     </div>
   </div>
 
   <script>
-    // 1. CAMBIO DE VISTAS
-    function cambiarVista(nombreVista, e) {
-      document.querySelectorAll('.seccion-pantalla').forEach(seccion => {
-        seccion.classList.remove('activa');
-      });
-      document.querySelectorAll('.btn-nav').forEach(boton => {
-        boton.classList.remove('activo');
-      });
-
-      document.getElementById(`vista-${nombreVista}`).classList.add('activa');
-      if (e && e.currentTarget) {
-        e.currentTarget.classList.add('activo');
+    // 1. TÍTULO DEL HOGAR PERSONALIZABLE
+    function cargarTituloHogar() {
+      const tituloGuardado = localStorage.getItem("titulo_hogar_local");
+      if (tituloGuardado) {
+        document.getElementById("texto-titulo-hogar").innerText = tituloGuardado;
       }
     }
 
-    // 2. LÓGICA DE RUTINARIO Y ALARMAS
+    function editarTituloHogar() {
+      const actual = document.getElementById("texto-titulo-hogar").innerText;
+      const nuevo = prompt("Introduce el nuevo nombre para tu hogar:", actual);
+      if (nuevo && nuevo.trim() !== "") {
+        document.getElementById("texto-titulo-hogar").innerText = nuevo.trim();
+        localStorage.setItem("titulo_hogar_local", nuevo.trim());
+      }
+    }
+
+    // 2. CAMBIO DE VISTAS
+    function cambiarVista(nombreVista, e) {
+      document.querySelectorAll('.seccion-pantalla').forEach(seccion => seccion.classList.remove('activa'));
+      document.querySelectorAll('.btn-nav').forEach(boton => boton.classList.remove('activo'));
+      document.getElementById(`vista-${nombreVista}`).classList.add('activa');
+      if (e && e.currentTarget) e.currentTarget.classList.add('activo');
+    }
+
+    // 3. RUTINARIO Y AUDIO
     let rutinas = cargarRutinas();
     let ultimasAlarmasEjecutadas = {};
+    let audioAlarma = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+
+    function activarPermisoAudio() {
+      audioAlarma.play().then(() => {
+        audioAlarma.pause();
+        audioAlarma.currentTime = 0;
+        alert("Audio para alarmas habilitado correctamente.");
+      }).catch(() => alert("Error activando el audio."));
+    }
 
     function cargarRutinas() {
       const guardado = localStorage.getItem("rutinas_hogar_local");
@@ -519,21 +518,13 @@
       const nombreInput = document.getElementById("rutina-nombre");
       const horaInput = document.getElementById("rutina-hora");
       const frecuenciaSelect = document.getElementById("rutina-frecuencia");
-
       const nombre = nombreInput.value.trim();
       const hora = horaInput.value;
       const frecuencia = frecuenciaSelect.value;
 
       if (!nombre || !hora) return;
 
-      const nuevaRutina = {
-        id: Date.now(),
-        nombre: nombre,
-        hora: hora,
-        frecuencia: frecuencia
-      };
-
-      rutinas.push(nuevaRutina);
+      rutinas.push({ id: Date.now(), nombre, hora, frecuencia });
       guardarRutinas();
       renderizarRutinas();
       nombreInput.value = "";
@@ -557,17 +548,13 @@
     function renderizarRutinas() {
       const listaUl = document.getElementById("lista-rutinas");
       listaUl.innerHTML = "";
-
       rutinas.forEach(rutina => {
         const li = document.createElement("li");
         li.className = "item-rutina";
         li.innerHTML = `
           <div class="rutina-detalles">
             <span class="rutina-titulo">${rutina.nombre}</span>
-            <span class="rutina-horario">
-              <svg class="icono-svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm3.3 14.71L11 12.41V7h2v4.59l3.71 3.71-1.42 1.41z"/></svg>
-              ${rutina.hora} - ${obtenerTextoFrecuencia(rutina.frecuencia)}
-            </span>
+            <span class="rutina-horario">${rutina.hora} - ${obtenerTextoFrecuencia(rutina.frecuencia)}</span>
           </div>
           <button class="btn-borrar" onclick="eliminarRutina(${rutina.id})">Borrar</button>
         `;
@@ -576,24 +563,8 @@
     }
 
     function reproducirSonidoAlarma() {
-      try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        const ctx = new AudioContext();
-        
-        [0, 0.3, 0.6].forEach(delay => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.value = 880;
-          gain.gain.value = 0.3;
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(ctx.currentTime + delay);
-          osc.stop(ctx.currentTime + delay + 0.2);
-        });
-      } catch (e) {
-        console.log("Audio no soportado o bloqueado por el navegador");
-      }
+      audioAlarma.currentTime = 0;
+      audioAlarma.play().catch(e => console.log("Audio bloqueado por dispositivo: ", e));
     }
 
     function verificarAlarmas() {
@@ -606,10 +577,8 @@
       rutinas.forEach(rutina => {
         if (rutina.hora === horaActual) {
           const claveEjecucion = `${rutina.id}_${ahora.toDateString()}_${horaActual}`;
-          
           if (!ultimasAlarmasEjecutadas[claveEjecucion]) {
             let debeSonar = false;
-
             if (rutina.frecuencia === 'diaria') debeSonar = true;
             else if (rutina.frecuencia === 'laborables' && diaSemana >= 1 && diaSemana <= 5) debeSonar = true;
             else if (rutina.frecuencia === 'finsemana' && (diaSemana === 0 || diaSemana === 6)) debeSonar = true;
@@ -626,33 +595,7 @@
 
     setInterval(verificarAlarmas, 10000);
 
-    // 3. GESTIÓN DEL MENÚ SEMANAL
-    const diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
-    const tiposComida = ['comida', 'cena'];
-
-    function guardarMenu() {
-      const datosMenu = {};
-      tiposComida.forEach(tipo => {
-        diasSemana.forEach(dia => {
-          const id = `menu-${tipo}-${dia}`;
-          const elem = document.getElementById(id);
-          if (elem) datosMenu[id] = elem.value;
-        });
-      });
-      localStorage.setItem("menu_semanal_local", JSON.stringify(datosMenu));
-    }
-
-    function cargarMenu() {
-      const guardado = localStorage.getItem("menu_semanal_local");
-      if (!guardado) return;
-      const datosMenu = JSON.parse(guardado);
-      Object.keys(datosMenu).forEach(id => {
-        const elem = document.getElementById(id);
-        if (elem) elem.value = datosMenu[id];
-      });
-    }
-
-    // 4. CONFIGURACIÓN DE LIMPIEZA CON ÍCONOS SVG
+    // 4. CONFIGURACIÓN Y GESTIÓN DE LIMPIEZA CON ESTANCIAS ORIGINALES
     const svgCama = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>`;
     const svgJuguete = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
     const svgMando = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
@@ -660,19 +603,18 @@
     const svgBano = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M21 10c-1.1 0-2 .9-2 2v3H5v-3c0-1.1-.9-2-2-2s-2 .9-2 2v5c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-5c0-1.1-.9-2-2-2zM7 9c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>`;
     const svgCocina = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2z"/></svg>`;
 
-    // Tarea "Recoger" eliminada de todas las estancias
-    const configuracionEstancias = [
+    const estanciasOriginales = [
       {
         id: "estancia_matrimonio",
         nombre: "Habitación matrimonio",
         iconoSvg: svgCama,
         tareas: [
-          { nombre: "Quitar polvo", intervaloDias: 3 },
-          { nombre: "Limpiar ventanas", intervaloDias: 30 },
-          { nombre: "Limpiar cristales", intervaloDias: 15 },
-          { nombre: "Cambiar sábanas", intervaloDias: 14 },
-          { nombre: "Pasar aspiradora", intervaloDias: 2 },
-          { nombre: "Pasar mocho", intervaloDias: 3 }
+          { id: "em_t1", nombre: "Quitar polvo", intervaloDias: 3, ultimaLimpieza: 0 },
+          { id: "em_t2", nombre: "Limpiar ventanas", intervaloDias: 30, ultimaLimpieza: 0 },
+          { id: "em_t3", nombre: "Limpiar cristales", intervaloDias: 15, ultimaLimpieza: 0 },
+          { id: "em_t4", nombre: "Cambiar sábanas", intervaloDias: 14, ultimaLimpieza: 0 },
+          { id: "em_t5", nombre: "Pasar aspiradora", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "em_t6", nombre: "Pasar mocho", intervaloDias: 3, ultimaLimpieza: 0 }
         ]
       },
       {
@@ -680,11 +622,11 @@
         nombre: "Habitación Elia",
         iconoSvg: svgJuguete,
         tareas: [
-          { nombre: "Quitar polvo", intervaloDias: 3 },
-          { nombre: "Limpiar ventanas", intervaloDias: 30 },
-          { nombre: "Limpiar mesa", intervaloDias: 2 },
-          { nombre: "Pasar aspiradora", intervaloDias: 2 },
-          { nombre: "Pasar mocho", intervaloDias: 3 }
+          { id: "ee_t1", nombre: "Quitar polvo", intervaloDias: 3, ultimaLimpieza: 0 },
+          { id: "ee_t2", nombre: "Limpiar ventanas", intervaloDias: 30, ultimaLimpieza: 0 },
+          { id: "ee_t3", nombre: "Limpiar mesa", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "ee_t4", nombre: "Pasar aspiradora", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "ee_t5", nombre: "Pasar mocho", intervaloDias: 3, ultimaLimpieza: 0 }
         ]
       },
       {
@@ -692,12 +634,12 @@
         nombre: "Habitación Israel",
         iconoSvg: svgMando,
         tareas: [
-          { nombre: "Quitar polvo", intervaloDias: 3 },
-          { nombre: "Limpiar ventanas", intervaloDias: 30 },
-          { nombre: "Limpiar cristales", intervaloDias: 15 },
-          { nombre: "Cambiar sábanas", intervaloDias: 14 },
-          { nombre: "Pasar aspiradora", intervaloDias: 2 },
-          { nombre: "Pasar mocho", intervaloDias: 3 }
+          { id: "ei_t1", nombre: "Quitar polvo", intervaloDias: 3, ultimaLimpieza: 0 },
+          { id: "ei_t2", nombre: "Limpiar ventanas", intervaloDias: 30, ultimaLimpieza: 0 },
+          { id: "ei_t3", nombre: "Limpiar cristales", intervaloDias: 15, ultimaLimpieza: 0 },
+          { id: "ei_t4", nombre: "Cambiar sábanas", intervaloDias: 14, ultimaLimpieza: 0 },
+          { id: "ei_t5", nombre: "Pasar aspiradora", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "ei_t6", nombre: "Pasar mocho", intervaloDias: 3, ultimaLimpieza: 0 }
         ]
       },
       {
@@ -705,16 +647,16 @@
         nombre: "Comedor",
         iconoSvg: svgSofa,
         tareas: [
-          { nombre: "Quitar polvo", intervaloDias: 3 },
-          { nombre: "Limpiar muebles", intervaloDias: 7 },
-          { nombre: "Limpiar ventanas", intervaloDias: 30 },
-          { nombre: "Limpiar cristales", intervaloDias: 15 },
-          { nombre: "Limpiar pecera", intervaloDias: 7 },
-          { nombre: "Pasar aspiradora sofá", intervaloDias: 10 },
-          { nombre: "Limpiar mesa", intervaloDias: 1 },
-          { nombre: "Limpiar sillas", intervaloDias: 7 },
-          { nombre: "Pasar aspiradora", intervaloDias: 2 },
-          { nombre: "Pasar mocho", intervaloDias: 3 }
+          { id: "ec_t1", nombre: "Quitar polvo", intervaloDias: 3, ultimaLimpieza: 0 },
+          { id: "ec_t2", nombre: "Limpiar muebles", intervaloDias: 7, ultimaLimpieza: 0 },
+          { id: "ec_t3", nombre: "Limpiar ventanas", intervaloDias: 30, ultimaLimpieza: 0 },
+          { id: "ec_t4", nombre: "Limpiar cristales", intervaloDias: 15, ultimaLimpieza: 0 },
+          { id: "ec_t5", nombre: "Limpiar pecera", intervaloDias: 7, ultimaLimpieza: 0 },
+          { id: "ec_t6", nombre: "Pasar aspiradora sofá", intervaloDias: 10, ultimaLimpieza: 0 },
+          { id: "ec_t7", nombre: "Limpiar mesa", intervaloDias: 1, ultimaLimpieza: 0 },
+          { id: "ec_t8", nombre: "Limpiar sillas", intervaloDias: 7, ultimaLimpieza: 0 },
+          { id: "ec_t9", nombre: "Pasar aspiradora", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "ec_t10", nombre: "Pasar mocho", intervaloDias: 3, ultimaLimpieza: 0 }
         ]
       },
       {
@@ -722,17 +664,17 @@
         nombre: "Baño",
         iconoSvg: svgBano,
         tareas: [
-          { nombre: "Quitar polvo", intervaloDias: 3 },
-          { nombre: "Limpiar ventanas", intervaloDias: 30 },
-          { nombre: "Limpiar cristales", intervaloDias: 15 },
-          { nombre: "Limpiar mampara", intervaloDias: 7 },
-          { nombre: "Limpiar plato de ducha", intervaloDias: 7 },
-          { nombre: "Limpiar bidet", intervaloDias: 3 },
-          { nombre: "Limpiar wáter", intervaloDias: 2 },
-          { nombre: "Limpiar pila", intervaloDias: 2 },
-          { nombre: "Limpiar mesa", intervaloDias: 7 },
-          { nombre: "Pasar aspiradora", intervaloDias: 2 },
-          { nombre: "Pasar mocho", intervaloDias: 3 }
+          { id: "eb_t1", nombre: "Quitar polvo", intervaloDias: 3, ultimaLimpieza: 0 },
+          { id: "eb_t2", nombre: "Limpiar ventanas", intervaloDias: 30, ultimaLimpieza: 0 },
+          { id: "eb_t3", nombre: "Limpiar cristales", intervaloDias: 15, ultimaLimpieza: 0 },
+          { id: "eb_t4", nombre: "Limpiar mampara", intervaloDias: 7, ultimaLimpieza: 0 },
+          { id: "eb_t5", nombre: "Limpiar plato de ducha", intervaloDias: 7, ultimaLimpieza: 0 },
+          { id: "eb_t6", nombre: "Limpiar bidet", intervaloDias: 3, ultimaLimpieza: 0 },
+          { id: "eb_t7", nombre: "Limpiar wáter", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "eb_t8", nombre: "Limpiar pila", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "eb_t9", nombre: "Limpiar mesa", intervaloDias: 7, ultimaLimpieza: 0 },
+          { id: "eb_t10", nombre: "Pasar aspiradora", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "eb_t11", nombre: "Pasar mocho", intervaloDias: 3, ultimaLimpieza: 0 }
         ]
       },
       {
@@ -740,79 +682,86 @@
         nombre: "Cocina",
         iconoSvg: svgCocina,
         tareas: [
-          { nombre: "Quitar polvo", intervaloDias: 3 },
-          { nombre: "Limpiar ventanas", intervaloDias: 30 },
-          { nombre: "Fregar", intervaloDias: 1 },
-          { nombre: "Limpiar encimera", intervaloDias: 1 },
-          { nombre: "Limpiar horno", intervaloDias: 15 },
-          { nombre: "Limpiar microondas", intervaloDias: 7 },
-          { nombre: "Limpiar thermomix", intervaloDias: 3 },
-          { nombre: "Limpiar air fryer", intervaloDias: 3 },
-          { nombre: "Limpiar nevera", intervaloDias: 15 },
-          { nombre: "Desinfectar", intervaloDias: 2 },
-          { nombre: "Pasar aspiradora", intervaloDias: 2 },
-          { nombre: "Pasar mocho", intervaloDias: 2 }
+          { id: "ek_t1", nombre: "Quitar polvo", intervaloDias: 3, ultimaLimpieza: 0 },
+          { id: "ek_t2", nombre: "Limpiar ventanas", intervaloDias: 30, ultimaLimpieza: 0 },
+          { id: "ek_t3", nombre: "Fregar", intervaloDias: 1, ultimaLimpieza: 0 },
+          { id: "ek_t4", nombre: "Limpiar encimera", intervaloDias: 1, ultimaLimpieza: 0 },
+          { id: "ek_t5", nombre: "Limpiar horno", intervaloDias: 15, ultimaLimpieza: 0 },
+          { id: "ek_t6", nombre: "Limpiar microondas", intervaloDias: 7, ultimaLimpieza: 0 },
+          { id: "ek_t7", nombre: "Limpiar thermomix", intervaloDias: 3, ultimaLimpieza: 0 },
+          { id: "ek_t8", nombre: "Limpiar air fryer", intervaloDias: 3, ultimaLimpieza: 0 },
+          { id: "ek_t9", nombre: "Limpiar nevera", intervaloDias: 15, ultimaLimpieza: 0 },
+          { id: "ek_t10", nombre: "Desinfectar", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "ek_t11", nombre: "Pasar aspiradora", intervaloDias: 2, ultimaLimpieza: 0 },
+          { id: "ek_t12", nombre: "Pasar mocho", intervaloDias: 2, ultimaLimpieza: 0 }
         ]
       }
     ];
 
-    function generarDatosIniciales() {
-      return configuracionEstancias.map(estancia => ({
-        id: estancia.id,
-        nombre: estancia.nombre,
-        iconoSvg: estancia.iconoSvg,
-        tareas: estancia.tareas.map((tarea, index) => ({
-          id: `${estancia.id}_t${index}`,
-          nombre: tarea.nombre,
-          intervaloDias: tarea.intervaloDias,
-          ultimaLimpieza: 0
-        }))
-      }));
-    }
+    let estadoApp = cargarLimpieza();
+    let estanciasAbiertas = {};
 
     function cargarLimpieza() {
       const guardado = localStorage.getItem("limpieza_hogar_local");
-      if (!guardado) {
-        return generarDatosIniciales();
+      return guardado ? JSON.parse(guardado) : estanciasOriginales;
+    }
+
+    function guardarLimpieza() {
+      localStorage.setItem("limpieza_hogar_local", JSON.stringify(estadoApp));
+    }
+
+    function agregarEstancia() {
+      const input = document.getElementById("input-nueva-estancia");
+      const nombre = input.value.trim();
+      if (!nombre) return;
+
+      estadoApp.push({ id: "estancia_" + Date.now(), nombre, iconoSvg: "", tareas: [] });
+      guardarLimpieza();
+      input.value = "";
+      renderizarLimpieza();
+    }
+
+    function eliminarEstancia(estanciaId) {
+      if (confirm("¿Seguro que deseas eliminar esta estancia?")) {
+        estadoApp = estadoApp.filter(e => e.id !== estanciaId);
+        guardarLimpieza();
+        renderizarLimpieza();
       }
-
-      const datosLocales = JSON.parse(guardado);
-      return configuracionEstancias.map(estancia => {
-        const estanciaLocal = datosLocales.find(e => e.id === estancia.id);
-        return {
-          id: estancia.id,
-          nombre: estancia.nombre,
-          iconoSvg: estancia.iconoSvg,
-          tareas: estancia.tareas.map((tarea, index) => {
-            const tareaId = `${estancia.id}_t${index}`;
-            const tareaLocal = estanciaLocal ? estanciaLocal.tareas.find(t => t.id === tareaId) : null;
-            return {
-              id: tareaId,
-              nombre: tarea.nombre,
-              intervaloDias: tareaLocal ? tareaLocal.intervaloDias : tarea.intervaloDias,
-              ultimaLimpieza: tareaLocal ? tareaLocal.ultimaLimpieza : 0
-            };
-          })
-        };
-      });
     }
 
-    function guardarLimpieza(datos) {
-      localStorage.setItem("limpieza_hogar_local", JSON.stringify(datos));
+    function editarNombreEstancia(estanciaId) {
+      const estancia = estadoApp.find(e => e.id === estanciaId);
+      if (!estancia) return;
+
+      const nuevoNombre = prompt("Nuevo nombre para la estancia:", estancia.nombre);
+      if (nuevoNombre && nuevoNombre.trim() !== "") {
+        estancia.nombre = nuevoNombre.trim();
+        guardarLimpieza();
+        renderizarLimpieza();
+      }
     }
 
-    function cargarPizarra() {
-      const guardado = localStorage.getItem("pizarra_hogar_local");
-      return guardado ? JSON.parse(guardado) : { comprar: [], hacer: [] };
+    function agregarTareaEstancia(estanciaId) {
+      const input = document.getElementById(`input-tarea-${estanciaId}`);
+      const nombre = input.value.trim();
+      if (!nombre) return;
+
+      const estancia = estadoApp.find(e => e.id === estanciaId);
+      if (estancia) {
+        estancia.tareas.push({ id: "tarea_" + Date.now(), nombre, intervaloDias: 3, ultimaLimpieza: 0 });
+        guardarLimpieza();
+        renderizarLimpieza();
+      }
     }
 
-    function guardarPizarra(datos) {
-      localStorage.setItem("pizarra_hogar_local", JSON.stringify(datos));
+    function eliminarTareaEstancia(estanciaId, tareaId) {
+      const estancia = estadoApp.find(e => e.id === estanciaId);
+      if (estancia) {
+        estancia.tareas = estancia.tareas.filter(t => t.id !== tareaId);
+        guardarLimpieza();
+        renderizarLimpieza();
+      }
     }
-
-    let estadoApp = cargarLimpieza();
-    let estadoPizarra = cargarPizarra();
-    let estanciasAbiertas = {};
 
     function obtenerEstadoCuentaAtras(ultimaLimpieza, intervaloDias) {
       const msPorDia = 86400000;
@@ -832,50 +781,99 @@
     }
 
     function marcarLimpio(estanciaId, tareaId) {
-      estadoApp = estadoApp.map(estancia => {
-        if (estancia.id === estanciaId) {
-          estancia.tareas = estancia.tareas.map(tarea => {
-            if (tarea.id === tareaId) tarea.ultimaLimpieza = Date.now();
-            return tarea;
-          });
-        }
-        return estancia;
-      });
-      guardarLimpieza(estadoApp);
+      const estancia = estadoApp.find(e => e.id === estanciaId);
+      if (estancia) {
+        const tarea = estancia.tareas.find(t => t.id === tareaId);
+        if (tarea) tarea.ultimaLimpieza = Date.now();
+      }
+      guardarLimpieza();
       renderizarLimpieza();
     }
 
     function cambiarFrecuencia(estanciaId, tareaId, nuevosDias) {
-      const valorNumerico = parseInt(nuevosDias, 10);
-      if (isNaN(valorNumerico) || valorNumerico < 1) return;
+      const valor = parseInt(nuevosDias, 10);
+      if (isNaN(valor) || valor < 1) return;
 
-      estadoApp = estadoApp.map(estancia => {
-        if (estancia.id === estanciaId) {
-          estancia.tareas = estancia.tareas.map(tarea => {
-            if (tarea.id === tareaId) tarea.intervaloDias = valorNumerico;
-            return tarea;
-          });
-        }
-        return estancia;
-      });
-      guardarLimpieza(estadoApp);
+      const estancia = estadoApp.find(e => e.id === estanciaId);
+      if (estancia) {
+        const tarea = estancia.tareas.find(t => t.id === tareaId);
+        if (tarea) tarea.intervaloDias = valor;
+      }
+      guardarLimpieza();
       renderizarLimpieza();
+    }
+
+    function renderizarLimpieza() {
+      const appContainer = document.getElementById("app");
+      appContainer.innerHTML = "";
+
+      estadoApp.forEach(estancia => {
+        const estaAbierta = estanciasAbiertas[estancia.id] || false;
+        const tarjeta = document.createElement("div");
+        tarjeta.className = "tarjeta-estancia";
+
+        tarjeta.innerHTML = `
+          <div class="cabecera-desplegable" onclick="alternarDesplegable('${estancia.id}')">
+            <span class="titulo-estancia">${estancia.iconoSvg || ''} ${estancia.nombre}</span>
+            <div class="acciones-estancia" onclick="event.stopPropagation()">
+              <button class="btn-secundario" onclick="editarNombreEstancia('${estancia.id}')">✏️</button>
+              <button class="btn-borrar" onclick="eliminarEstancia('${estancia.id}')">✕</button>
+              <span>${estaAbierta ? "▲" : "▼"}</span>
+            </div>
+          </div>
+          <div class="contenido-tareas ${estaAbierta ? "abierto" : ""}">
+            ${estancia.tareas.map(tarea => {
+              const info = obtenerEstadoCuentaAtras(tarea.ultimaLimpieza, tarea.intervaloDias);
+              const claseEstado = info.esUrgente ? "urgente" : "al-dia";
+              return `
+                <div class="tarea-item">
+                  <div class="tarea-info">
+                    <div class="tarea-nombre">${tarea.nombre}</div>
+                    <div class="tarea-frecuencia">
+                      Cada <input type="number" class="input-frecuencia" value="${tarea.intervaloDias}" min="1" onchange="cambiarFrecuencia('${estancia.id}', '${tarea.id}', this.value)" /> días
+                    </div>
+                    <div class="tarea-estado ${claseEstado}">${info.texto}</div>
+                  </div>
+                  <button onclick="marcarLimpio('${estancia.id}', '${tarea.id}')">Hecho</button>
+                  <button class="btn-borrar" onclick="eliminarTareaEstancia('${estancia.id}', '${tarea.id}')">✕</button>
+                </div>
+              `;
+            }).join('')}
+            <div class="form-nueva-tarea">
+              <input type="text" id="input-tarea-${estancia.id}" class="input-pizarra" placeholder="Añadir acción/tarea..." />
+              <button onclick="agregarTareaEstancia('${estancia.id}')">+</button>
+            </div>
+          </div>
+        `;
+        appContainer.appendChild(tarjeta);
+      });
+    }
+
+    // 5. PIZARRA Y MENÚ
+    let estadoPizarra = cargarPizarra();
+
+    function cargarPizarra() {
+      const guardado = localStorage.getItem("pizarra_hogar_local");
+      return guardado ? JSON.parse(guardado) : { comprar: [], hacer: [] };
+    }
+
+    function guardarPizarra() {
+      localStorage.setItem("pizarra_hogar_local", JSON.stringify(estadoPizarra));
     }
 
     function agregarElementoPizarra(tipo) {
       const input = document.getElementById(`input-${tipo}`);
       const texto = input.value.trim();
       if (!texto) return;
-
       estadoPizarra[tipo].push(texto);
-      guardarPizarra(estadoPizarra);
+      guardarPizarra();
       input.value = "";
       renderizarPizarra();
     }
 
     function eliminarElementoPizarra(tipo, indice) {
       estadoPizarra[tipo].splice(indice, 1);
-      guardarPizarra(estadoPizarra);
+      guardarPizarra();
       renderizarPizarra();
     }
 
@@ -886,77 +884,43 @@
       }
     }
 
-    function renderizarLimpieza() {
-      const appContainer = document.getElementById("app");
-      appContainer.innerHTML = "";
-
-      estadoApp.forEach(estancia => {
-        const estaAbierta = estanciasAbiertas[estancia.id] || false;
-        const contenedorTarjeta = document.createElement("div");
-        contenedorTarjeta.className = "tarjeta-estancia";
-
-        const botonCabecera = document.createElement("button");
-        botonCabecera.className = "cabecera-desplegable";
-        botonCabecera.onclick = () => alternarDesplegable(estancia.id);
-        botonCabecera.innerHTML = `
-          <span class="titulo-estancia">${estancia.iconoSvg || ''} ${estancia.nombre}</span>
-          <span>${estaAbierta ? "▲" : "▼"}</span>
-        `;
-
-        const contenedorTareas = document.createElement("div");
-        contenedorTareas.className = `contenido-tareas ${estaAbierta ? "abierto" : ""}`;
-
-        let htmlTareas = "";
-        estancia.tareas.forEach(tarea => {
-          const info = obtenerEstadoCuentaAtras(tarea.ultimaLimpieza, tarea.intervaloDias);
-          const claseEstado = info.esUrgente ? "urgente" : "al-dia";
-
-          htmlTareas += `
-            <div class="tarea-item">
-              <div class="tarea-info">
-                <div class="tarea-nombre">${tarea.nombre}</div>
-                <div class="tarea-frecuencia">
-                  Cada 
-                  <input 
-                    type="number" 
-                    class="input-frecuencia" 
-                    value="${tarea.intervaloDias}" 
-                    min="1"
-                    onchange="cambiarFrecuencia('${estancia.id}', '${tarea.id}', this.value)"
-                  /> días
-                </div>
-                <div class="tarea-estado ${claseEstado}">${info.texto}</div>
-              </div>
-              <button onclick="marcarLimpio('${estancia.id}', '${tarea.id}')">Hecho</button>
-            </div>
-          `;
-        });
-
-        contenedorTareas.innerHTML = htmlTareas;
-        contenedorTarjeta.appendChild(botonCabecera);
-        contenedorTarjeta.appendChild(contenedorTareas);
-        appContainer.appendChild(contenedorTarjeta);
-      });
-    }
-
     function renderizarPizarra() {
       ["comprar", "hacer"].forEach(tipo => {
         const listaUl = document.getElementById(`lista-${tipo}`);
         listaUl.innerHTML = "";
-
         estadoPizarra[tipo].forEach((texto, index) => {
           const li = document.createElement("li");
           li.className = "item-pizarra";
-          li.innerHTML = `
-            <span>${texto}</span>
-            <button class="btn-borrar" onclick="eliminarElementoPizarra('${tipo}', ${index})">✕</button>
-          `;
+          li.innerHTML = `<span>${texto}</span><button class="btn-borrar" onclick="eliminarElementoPizarra('${tipo}', ${index})">✕</button>`;
           listaUl.appendChild(li);
         });
       });
     }
 
-    // Inicializar todo
+    function guardarMenu() {
+      const datosMenu = {};
+      ['comida', 'cena'].forEach(tipo => {
+        ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'].forEach(dia => {
+          const id = `menu-${tipo}-${dia}`;
+          const elem = document.getElementById(id);
+          if (elem) datosMenu[id] = elem.value;
+        });
+      });
+      localStorage.setItem("menu_semanal_local", JSON.stringify(datosMenu));
+    }
+
+    function cargarMenu() {
+      const guardado = localStorage.getItem("menu_semanal_local");
+      if (!guardado) return;
+      const datosMenu = JSON.parse(guardado);
+      Object.keys(datosMenu).forEach(id => {
+        const elem = document.getElementById(id);
+        if (elem) elem.value = datosMenu[id];
+      });
+    }
+
+    // Inicialización al cargar la app
+    cargarTituloHogar();
     renderizarLimpieza();
     renderizarPizarra();
     cargarMenu();
