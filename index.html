@@ -16,7 +16,7 @@
       min-height: 100vh;
     }
     
-    /* Encabezado principal y edición de título */
+    /* ENCABEZADO */
     h1 {
       text-align: center;
       font-size: 24px;
@@ -48,7 +48,6 @@
       transform: none;
     }
 
-    /* ESTILOS DE ÍCONOS SVG GENERALES */
     .icono-svg {
       width: 18px;
       height: 18px;
@@ -58,7 +57,7 @@
     }
     .icono-grande { width: 22px; height: 22px; }
 
-    /* BARRA DE NAVEGACIÓN */
+    /* NAVEGACIÓN */
     .navegacion {
       display: flex;
       justify-content: center;
@@ -94,7 +93,7 @@
       border: none;
     }
 
-    /* CONTENEDOR DE SECCIONES */
+    /* CONTENEDORES */
     .seccion-pantalla {
       display: none;
       height: calc(100vh - 130px);
@@ -105,7 +104,7 @@
     }
     .seccion-pantalla.activa { display: block; }
 
-    /* ESTILOS DE LIMPIEZA */
+    /* LIMPIEZA */
     .tarjeta-estancia {
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(10px);
@@ -290,7 +289,7 @@
     .rutina-titulo { font-weight: 700; font-size: 16px; color: #0f172a; }
     .rutina-horario { font-size: 13px; color: #64748b; display: flex; align-items: center; gap: 4px; }
 
-    /* CALENDARIO COMPLETO */
+    /* CALENDARIO */
     .contenedor-iframe {
       width: 100%;
       height: 100%;
@@ -301,6 +300,47 @@
       border: 1px solid rgba(255, 255, 255, 0.7);
     }
     .contenedor-iframe iframe { width: 100%; height: 100%; border: none; }
+
+    /* MODAL DE ALARMA ACTIVA */
+    .overlay-alarma {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+    .overlay-alarma.activo { display: flex; }
+    .caja-alarma {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: pulso 1s infinite alternate;
+    }
+    @keyframes pulso {
+      0% { transform: scale(0.98); }
+      100% { transform: scale(1.02); }
+    }
+    .caja-alarma h2 { color: #dc2626; margin-top: 0; font-size: 24px; }
+    .caja-alarma p { font-size: 18px; font-weight: 600; color: #1e293b; margin: 20px 0; }
+    .btn-apagar-alarma {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: #ffffff;
+      font-size: 18px;
+      padding: 14px 28px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+    }
 
     /* BOTONES GENERALES */
     button {
@@ -330,6 +370,15 @@
   </style>
 </head>
 <body>
+
+  <!-- MODAL DE ALERTA DE ALARMA REPETITIVA -->
+  <div id="modal-alarma" class="overlay-alarma">
+    <div class="caja-alarma">
+      <h2>🔔 RECORDATORIO ACTIVO</h2>
+      <p id="texto-alarma-mensaje">Nombre de la tarea</p>
+      <button class="btn-apagar-alarma" onclick="apagarAlarma()">OK / Detener Alarma</button>
+    </div>
+  </div>
 
   <h1>
     <svg class="icono-svg icono-grande" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -454,7 +503,7 @@
   <div id="vista-calendario" class="seccion-pantalla">
     <div class="contenedor-iframe">
       <iframe 
-        src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FMadrid&showPrint=0&src=Y2FicmVqYXM2MkBnbWFpbC5jb20&src=ZGQ5ZDczNTYwZGM3ODViZjkyYWRiMDA2MjU0Y2M0MmI5YmI3OWRmZDE4N2FiZjBhOGMxNWFmMWEwNGYwMzNmN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NTZmOGI3NDRiZjcyNWU3YzE0OTNkNzEyOTAzNWQ1ZjFmOGU2YjgyZmNjYjI5NDczNmQ3YWRkNzNmMjg0N2FlNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2U3NjFjYTYyOGNlZTFkMzE2YTFjZWVhYjhjNjNmMjFkMTVkMjAxMWIxODcwNDM3NzdlMGNiZGQ1ZGY1YzE2ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YTY4MWMwNjdjMmU5OGFkNTMyYTdlMTQxNmQ1OWE4N2IyN2QyMGUyNTAwMzVhOGVjYzJmZDRjOWVmMTBiZTQzMUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YjJlOTA1YmFlYzk0MzRmZWRhYzJhM2Y3ZmQ1NTk5YTAxMThkMTZkZGE5NTEzYWJjYjVjNjdlMTcyNTQzM3E4MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Yjg6NzVkNWIyNDVlMTk2NjQ5NDVmOTc1NTVjMWYyZjU1NzhhYzMxNDgzMWE4M3FkZDRkMjAzNmZlOTA1OTZiNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=OGU1M2NjYTVhZjEwMjBkODk5NzRhNTZlNDQ0NmMyMTBlODFkYmI4MzZhODQ5MTM5ZTI4OGIwYWM2YTdiZTcwNkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MmIzZjkwNzgwMWVjY2Q0MDIxMzJjYTQ6MTQxNzJiZmMxNDhkMGM5YmRiMTI5ZmYyZDdjN2MxNzIxMzQyOWQxNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MzM6OTE5MjI1YzExYjg1MmE5ZDBiMTk4YTAzYjU0YjQ0YmUxYzQ3YTU1OGRlMDQ4MTI3ODIxMjY4NGRmN2NjMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuY2hyaXN0aWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuc3BhaW4jaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285f4&color=%23616161&color=%23ad1457&color=%23c0ca33&color=%239e69af&color=%23f6bf26&color=%23d50000&color=%23ef6c00&color=%2333b679&color=%234285f4&color=%230b8043&color=%23f6bf26" 
+        src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FMadrid&showPrint=0&src=Y2FicmVqYXM2MkBnbWFpbC5jb20&src=ZGQ5ZDczNTYwZGM3ODViZjkyYWRiMDA2MjU0Y2M0MmI5YmI3OWRmZDE4N2FiZjBhOGMxNWFmMWEwNGYwMzNmN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NTZmOGI3NDRiZjcyNWU3YzE0OTNkNzEyOTAzNWQ1ZjFmOGU2YjgyZmNjYjI5NDczNmQ3YWRkNzNmMjg4N2FlNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2U3NjFjYTYyOGNlZTFkMzE2YTFjZWVhYjhjNjNmMjFkMTVkMjAxMWIxODcwNDM3NzdlMGNiZGQ1ZGY1YzE2ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YTY4MWMwNjdjMmU5OGFkNTMyYTdlMTQxNmQ1OWE4N2IyN2QyMGUyNTAwMzVhOGVjYzJmZDRjOWVmMTBiZTQzMUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YjJlOTA1YmFlYzk0MzRmZWRhYzJhM2Y3ZmQ1NTk5YTAxMThkMTZkZGE5NTEzYWJjYjVjNjdlMTcyNTQzM3E4MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Yjg6NzVkNWIyNDVlMTk2NjQ5NDVmOTc1NTVjMWYyZjU1NzhhYzMxNDgzMWE4M3FkZDRkMjAzNmZlOTA1OTZiNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=OGU1M2NjYTVhZjEwMjBkODk5NzRhNTZlNDQ0NmMyMTBlODFkYmI4MzZhODQ5MTM5ZTI4OGIwYWM2YTdiZTcwNkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MmIzZjkwNzgwMWVjY2Q0MDIxMzJjYTQ6MTQxNzJiZmMxNDhkMGM5YmRiMTI5ZmYyZDdjN2MxNzIxMzQyOWQxNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MzM6OTE5MjI1YzExYjg1MmE5ZDBiMTk4YTAzYjU0YjQ0YmUxYzQ3YTU1OGRlMDQ4MTI3ODIxMjY4NGRmN2NjMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuY2hyaXN0aWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuc3BhaW4jaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285f4&color=%23616161&color=%23ad1457&color=%23c0ca33&color=%239e69af&color=%23f6bf26&color=%23d50000&color=%23ef6c00&color=%2333b679&color=%234285f4&color=%230b8043&color=%23f6bf26" 
         style="border:0" 
         frameborder="0" 
         scrolling="no"
@@ -490,10 +539,13 @@
       if (e && e.currentTarget) e.currentTarget.classList.add('activo');
     }
 
-    // 3. RUTINARIO Y AUDIO
+    // 3. RUTINARIO Y AUDIO EN BUCLE (LOOP)
     let rutinas = cargarRutinas();
     let ultimasAlarmasEjecutadas = {};
+    
+    // Configuración del objeto de Audio con BUCLE (loop = true)
     let audioAlarma = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+    audioAlarma.loop = true;
 
     function activarPermisoAudio() {
       audioAlarma.play().then(() => {
@@ -562,9 +614,20 @@
       });
     }
 
-    function reproducirSonidoAlarma() {
+    // INICIAR SONIDO EN BUCLE Y MOSTRAR MODAL
+    function dispararAlarma(nombreRutina) {
+      document.getElementById("texto-alarma-mensaje").innerText = nombreRutina;
+      document.getElementById("modal-alarma").classList.add("activo");
+      
       audioAlarma.currentTime = 0;
       audioAlarma.play().catch(e => console.log("Audio bloqueado por dispositivo: ", e));
+    }
+
+    // DETENER SONIDO Y OCULTAR MODAL AL PULSAR OK
+    function apagarAlarma() {
+      audioAlarma.pause();
+      audioAlarma.currentTime = 0;
+      document.getElementById("modal-alarma").classList.remove("activo");
     }
 
     function verificarAlarmas() {
@@ -585,8 +648,7 @@
 
             if (debeSonar) {
               ultimasAlarmasEjecutadas[claveEjecucion] = true;
-              reproducirSonidoAlarma();
-              alert(`RECORDATORIO DE RUTINA:\n\n${rutina.nombre}`);
+              dispararAlarma(rutina.nombre);
             }
           }
         }
@@ -595,7 +657,7 @@
 
     setInterval(verificarAlarmas, 10000);
 
-    // 4. CONFIGURACIÓN Y GESTIÓN DE LIMPIEZA CON ESTANCIAS ORIGINALES
+    // 4. ESTANCIAS DE LIMPIEZA
     const svgCama = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>`;
     const svgJuguete = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
     const svgMando = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
