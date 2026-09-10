@@ -289,32 +289,159 @@
     .rutina-titulo { font-weight: 700; font-size: 16px; color: #0f172a; }
     .rutina-horario { font-size: 13px; color: #64748b; display: flex; align-items: center; gap: 4px; }
 
-    /* CALENDARIO */
-    .barra-superior-calendario {
+    /* ESTILOS DEL NUEVO CALENDARIO PROPIO */
+    .calendario-layout {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .calendario-main {
+      flex: 2;
+      min-width: 300px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    }
+    .calendario-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
-      background: rgba(255, 255, 255, 0.88);
-      padding: 12px 18px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      margin-bottom: 16px;
     }
-    .barra-superior-calendario span {
-      font-weight: 600;
+    .calendario-header h2 {
+      margin: 0;
       color: #0369a1;
+      font-size: 18px;
+      text-transform: capitalize;
+    }
+    .grid-dias-semana {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-weight: bold;
+      color: #64748b;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .grid-calendario {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .celda-dia {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      min-height: 65px;
+      padding: 6px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .celda-dia:hover {
+      background: #ffffff;
+      border-color: #38bdf8;
+    }
+    .celda-dia.vacia {
+      background: transparent;
+      border: none;
+      cursor: default;
+    }
+    .celda-dia.hoy {
+      border: 2px solid #0284c7;
+      background: #e0f2fe;
+    }
+    .celda-dia.seleccionado {
+      background: #0369a1;
+      color: #ffffff;
+    }
+    .numero-dia {
+      font-weight: bold;
       font-size: 14px;
     }
-    .contenedor-iframe {
-      width: 100%;
-      height: calc(100% - 60px);
-      background: rgba(255, 255, 255, 0.88);
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.7);
+    .indicador-eventos {
+      display: flex;
+      gap: 3px;
+      flex-wrap: wrap;
     }
-    .contenedor-iframe iframe { width: 100%; height: 100%; border: none; }
+    .punto-evento {
+      width: 6px;
+      height: 6px;
+      background-color: #eab308;
+      border-radius: 50%;
+    }
+    .celda-dia.seleccionado .punto-evento {
+      background-color: #ffffff;
+    }
+
+    /* PANEL LATERAL DE EVENTOS */
+    .panel-eventos {
+      flex: 1;
+      min-width: 280px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+    }
+    .panel-eventos h3 {
+      margin-top: 0;
+      color: #0369a1;
+      font-size: 16px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+    .form-evento {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .form-evento input {
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+    .lista-eventos-dia {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .item-evento {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .evento-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .evento-titulo {
+      font-weight: bold;
+      font-size: 14px;
+      color: #0f172a;
+    }
+    .evento-hora {
+      font-size: 12px;
+      color: #64748b;
+    }
 
     /* MODAL DE ALARMA ACTIVA */
     .overlay-alarma {
@@ -513,22 +640,32 @@
     <ul id="lista-rutinas" class="lista-rutinas"></ul>
   </div>
 
-  <!-- VISTA 5: CALENDARIO -->
+  <!-- VISTA 5: CALENDARIO PROPIO -->
   <div id="vista-calendario" class="seccion-pantalla">
-    <div class="barra-superior-calendario">
-      <span>Gestión de Cuenta</span>
-      <button class="btn-secundario" onclick="cerrarSesionGoogle()">🚪 Cerrar Sesión de Google</button>
-    </div>
-    <div class="contenedor-iframe">
-      <iframe 
-        id="iframe-calendario"
-        src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FMadrid&showPrint=0&src=Y2FicmVqYXM2MkBnbWFpbC5jb20&src=ZGQ5ZDczNTYwZGM3ODViZjkyYWRiMDA2MjU0Y2M0MmI5YmI3OWRmZDE4N2FiZjBhOGMxNWFmMWEwNGYwMzNmN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NTZmOGI3NDRiZjcyNWU3YzE0OTNkNzEyOTAzNWQ1ZjFmOGU2YjgyZmNjYjI5NDczNmQ3YWRkNzNmMjg4N2FlNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2U3NjFjYTYyOGNlZTFkMzE2YTFjZWVhYjhjNjNmMjFkMTVkMjAxMWIxODcwNDM3NzdlMGNiZGQ1ZGY1YzE2ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YTY4MWMwNjdjMmU5OGFkNTMyYTdlMTQxNmQ1OWE4N2IyN2QyMGUyNTAwMzVhOGVjYzJmZDRjOWVmMTBiZTQzMUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YjJlOTA1YmFlYzk0MzRmZWRhYzJhM3F3ZmQ1NTk5YTAxMThkMTZkZGE5NTEzYWJjYjVjNjdlMTcyNTQzM3E4MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Yjg6NzVkNWIyNDVlMTk2NjQ5NDVmOTc1NTVjMWYyZjU1NzhhYzMxNDgzMWE4M3FkZDRkMjAzNmZlOTA1OTZiNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=OGU1M2NjYTVhZjEwMjBkODk5NzRhNTZlNDQ0NmMyMTBlODFkYmI4MzZhODQ5MTM5ZTI4OGIwYWM2YTdiZTcwNkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MmIzZjkwNzgwMWVjY2Q0MDIxMzJjYTQ6MTQxNzJiZmMxNDhkMGM5YmRiMTI5ZmYyZDdjN2MxNzIxMzQyOWQxNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MzM6OTE5MjI1YzExYjg1MmE5ZDBiMTk4YTAzYjU0YjQ0YmUxYzQ3YTU1OGRlMDQ4MTI3ODIxMjY4NGRmN2NjMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuY2hyaXN0aWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuc3BhaW4jaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285f4&color=%23616161&color=%23ad1457&color=%23c0ca33&color=%239e69af&color=%23f6bf26&color=%23d50000&color=%23ef6c00&color=%2333b679&color=%234285f4&color=%230b8043&color=%23f6bf26" 
-        style="border:0" 
-        frameborder="0" 
-        scrolling="no"
-        allow="autoplay; fullscreen"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals">
-      </iframe>
+    <div class="calendario-layout">
+      <!-- CALENDARIO PRINCIPAL -->
+      <div class="calendario-main">
+        <div class="calendario-header">
+          <button class="btn-secundario" onclick="cambiarMes(-1)">◀ Anterior</button>
+          <h2 id="titulo-mes-año">Mes Año</h2>
+          <button class="btn-secundario" onclick="cambiarMes(1)">Siguiente ▶</button>
+        </div>
+        <div class="grid-dias-semana">
+          <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+        </div>
+        <div id="grid-calendario" class="grid-calendario"></div>
+      </div>
+
+      <!-- PANEL DE EVENTOS -->
+      <div class="panel-eventos">
+        <h3 id="titulo-dia-seleccionado">Eventos del día</h3>
+        <div class="form-evento">
+          <input type="text" id="input-titulo-evento" placeholder="Título del evento..." />
+          <input type="time" id="input-hora-evento" value="12:00" />
+          <button onclick="agregarEvento()">+ Añadir Evento</button>
+        </div>
+        <ul id="lista-eventos" class="lista-eventos-dia"></ul>
+      </div>
     </div>
   </div>
 
@@ -558,15 +695,161 @@
       if (e && e.currentTarget) e.currentTarget.classList.add('activo');
     }
 
-    // 3. CERRAR SESIÓN DE GOOGLE
-    function cerrarSesionGoogle() {
-      if (confirm("¿Quieres cerrar la sesión activa de Google para usar otra cuenta?")) {
-        // Abre la página de desconexión oficial en una ventana emergente/nueva pestaña
-        window.open("https://accounts.google.com/Logout", "_blank");
-        
-        // Recarga el iframe del calendario para forzar el inicio de sesión con la nueva cuenta
-        const iframe = document.getElementById("iframe-calendario");
-        iframe.src = iframe.src;
+    // 3. LÓGICA DEL CALENDARIO NATIVO
+    let fechaActualCalendario = new Date();
+    let fechaSeleccionadaClave = obtenerClaveFecha(new Date());
+    let eventosHogar = cargarEventos();
+
+    function cargarEventos() {
+      const guardado = localStorage.getItem("eventos_calendario_local");
+      return guardado ? JSON.parse(guardado) : {};
+    }
+
+    function guardarEventos() {
+      localStorage.setItem("eventos_calendario_local", JSON.stringify(eventosHogar));
+    }
+
+    function obtenerClaveFecha(fecha) {
+      const a = fecha.getFullYear();
+      const m = String(fecha.getMonth() + 1).padStart(2, '0');
+      const d = String(fecha.getDate()).padStart(2, '0');
+      return `${a}-${m}-${d}`;
+    }
+
+    function cambiarMes(delta) {
+      fechaActualCalendario.setMonth(fechaActualCalendario.getMonth() + delta);
+      renderizarCalendario();
+    }
+
+    function seleccionarDia(claveFecha) {
+      fechaSeleccionadaClave = claveFecha;
+      renderizarCalendario();
+      renderizarEventos();
+    }
+
+    function renderizarCalendario() {
+      const grid = document.getElementById("grid-calendario");
+      grid.innerHTML = "";
+
+      const año = fechaActualCalendario.getFullYear();
+      const mes = fechaActualCalendario.getMonth();
+
+      const primerDiaMes = new Date(año, mes, 1);
+      const ultimoDiaMes = new Date(año, mes + 1, 0);
+
+      const nombreMes = fechaActualCalendario.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+      document.getElementById("titulo-mes-año").innerText = nombreMes;
+
+      // Obtener el día de la semana (ajustar para que Lunes sea 0 y Domingo 6)
+      let diaInicioSemana = primerDiaMes.getDay() - 1;
+      if (diaInicioSemana === -1) diaInicioSemana = 6;
+
+      // Celdas vacías al inicio del mes
+      for (let i = 0; i < diaInicioSemana; i++) {
+        const celdaVacia = document.createElement("div");
+        celdaVacia.className = "celda-dia vacia";
+        grid.appendChild(celdaVacia);
+      }
+
+      const hoyClave = obtenerClaveFecha(new Date());
+
+      // Celdas para cada día del mes
+      for (let dia = 1; dia <= ultimoDiaMes.getDate(); dia++) {
+        const fechaCelda = new Date(año, mes, dia);
+        const claveCelda = obtenerClaveFecha(fechaCelda);
+
+        const celda = document.createElement("div");
+        celda.className = "celda-dia";
+        if (claveCelda === hoyClave) celda.classList.add("hoy");
+        if (claveCelda === fechaSeleccionadaClave) celda.classList.add("seleccionado");
+
+        celda.onclick = () => seleccionarDia(claveCelda);
+
+        const numDia = document.createElement("span");
+        numDia.className = "numero-dia";
+        numDia.innerText = dia;
+        celda.appendChild(numDia);
+
+        // Mostrar puntos indicando si existen eventos
+        if (eventosHogar[claveCelda] && eventosHogar[claveCelda].length > 0) {
+          const contenedorPuntos = document.createElement("div");
+          contenedorPuntos.className = "indicador-eventos";
+          eventosHogar[claveCelda].forEach(() => {
+            const punto = document.createElement("div");
+            punto.className = "punto-evento";
+            contenedorPuntos.appendChild(punto);
+          });
+          celda.appendChild(contenedorPuntos);
+        }
+
+        grid.appendChild(celda);
+      }
+    }
+
+    function renderizarEventos() {
+      const listaUl = document.getElementById("lista-eventos");
+      listaUl.innerHTML = "";
+
+      const partes = fechaSeleccionadaClave.split("-");
+      const fechaObj = new Date(partes[0], partes[1] - 1, partes[2]);
+      const fechaTexto = fechaObj.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+      
+      document.getElementById("titulo-dia-seleccionado").innerText = `Eventos (${fechaTexto})`;
+
+      const eventosDelDia = eventosHogar[fechaSeleccionadaClave] || [];
+
+      if (eventosDelDia.length === 0) {
+        listaUl.innerHTML = `<li style="color: #64748b; font-size: 13px;">No hay eventos anotados.</li>`;
+        return;
+      }
+
+      eventosDelDia.forEach((evt, index) => {
+        const li = document.createElement("li");
+        li.className = "item-evento";
+        li.innerHTML = `
+          <div class="evento-info">
+            <span class="evento-titulo">${evt.titulo}</span>
+            <span class="evento-hora">🕒 ${evt.hora}</span>
+          </div>
+          <button class="btn-borrar" onclick="eliminarEvento(${index})">✕</button>
+        `;
+        listaUl.appendChild(li);
+      });
+    }
+
+    function agregarEvento() {
+      const inputTitulo = document.getElementById("input-titulo-evento");
+      const inputHora = document.getElementById("input-hora-evento");
+      const titulo = inputTitulo.value.trim();
+      const hora = inputHora.value;
+
+      if (!titulo) return;
+
+      if (!eventosHogar[fechaSeleccionadaClave]) {
+        eventosHogar[fechaSeleccionadaClave] = [];
+      }
+
+      eventosHogar[fechaSeleccionadaClave].push({ id: Date.now(), titulo, hora });
+      
+      // Ordenar eventos del día por hora
+      eventosHogar[fechaSeleccionadaClave].sort((a, b) => a.hora.localeCompare(b.hora));
+
+      guardarEventos();
+      inputTitulo.value = "";
+      
+      renderizarCalendario();
+      renderizarEventos();
+    }
+
+    function eliminarEvento(index) {
+      if (eventosHogar[fechaSeleccionadaClave]) {
+        eventosHogar[fechaSeleccionadaClave].splice(index, 1);
+        if (eventosHogar[fechaSeleccionadaClave].length === 0) {
+          delete eventosHogar[fechaSeleccionadaClave];
+        }
+        guardarEventos();
+        renderizarCalendario();
+        renderizarEventos();
       }
     }
 
@@ -1073,6 +1356,8 @@ END:VCALENDAR`;
     renderizarPizarra();
     cargarMenu();
     renderizarRutinas();
+    renderizarCalendario();
+    renderizarEventos();
   </script>
 </body>
 </html>
