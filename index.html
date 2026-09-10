@@ -578,6 +578,53 @@
       localStorage.setItem("rutinas_hogar_local", JSON.stringify(rutinas));
     }
 
+    /**
+     * Genera un archivo .ics para abrir la alarma/evento en el sistema nativo del móvil
+     */
+    function exportarAlarmaNativa(titulo, horaHHMM) {
+      const ahora = new Date();
+      const [horas, minutos] = horaHHMM.split(':');
+      
+      // Ajustar la hora seleccionada para el evento de hoy
+      const fechaEvento = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate(), horas, minutos);
+      
+      // Si la hora ya pasó hoy, se programa para mañana
+      if (fechaEvento < ahora) {
+        fechaEvento.setDate(fechaEvento.getDate() + 1);
+      }
+
+      // Formato iCalendar UTC (YYYYMMDDTHHMMSSZ)
+      const fechaFormateada = fechaEvento.toISOString().replace(/-|:|\.\d\d\d/g, "");
+
+      // Estructura del evento con alarma de activación (TRIGGER)
+      const contenidoICS = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hogar//Recordatorios//ES
+BEGIN:VEVENT
+SUMMARY:${titulo}
+DTSTART:${fechaFormateada}
+DTEND:${fechaFormateada}
+DESCRIPTION:Recordatorio programado desde tu app de Hogar
+BEGIN:VALARM
+TRIGGER:-PT0M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+      // Creación del archivo descargable al vuelo
+      const blob = new Blob([contenidoICS], { type: 'text/calendar;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const enlace = document.createElement('a');
+      enlace.href = url;
+      enlace.setAttribute('download', `${titulo}.ics`);
+      document.body.appendChild(enlace);
+      enlace.click();
+      document.body.removeChild(enlace);
+    }
+
     function agregarRutina() {
       const nombreInput = document.getElementById("rutina-nombre");
       const horaInput = document.getElementById("rutina-hora");
@@ -591,6 +638,10 @@
       rutinas.push({ id: Date.now(), nombre, hora, frecuencia });
       guardarRutinas();
       renderizarRutinas();
+
+      // Exportar la rutina como alarma nativa para el teléfono
+      exportarAlarmaNativa(nombre, hora);
+
       nombreInput.value = "";
     }
 
