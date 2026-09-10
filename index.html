@@ -289,19 +289,13 @@
     .rutina-titulo { font-weight: 700; font-size: 16px; color: #0f172a; }
     .rutina-horario { font-size: 13px; color: #64748b; display: flex; align-items: center; gap: 4px; }
 
-    /* ESTILOS DEL NUEVO CALENDARIO PROPIO */
-    .calendario-layout {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .calendario-main {
-      flex: 2;
-      min-width: 300px;
+    /* ESTILOS DEL CALENDARIO COMPLETO */
+    .calendario-completo {
+      width: 100%;
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(10px);
       border-radius: 16px;
-      padding: 16px;
+      padding: 20px;
       border: 1px solid rgba(255, 255, 255, 0.7);
       box-shadow: 0 4px 15px rgba(0,0,0,0.04);
     }
@@ -314,7 +308,7 @@
     .calendario-header h2 {
       margin: 0;
       color: #0369a1;
-      font-size: 18px;
+      font-size: 20px;
       text-transform: capitalize;
     }
     .grid-dias-semana {
@@ -324,133 +318,146 @@
       font-weight: bold;
       color: #64748b;
       margin-bottom: 8px;
-      font-size: 13px;
+      font-size: 14px;
     }
     .grid-calendario {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 6px;
+      gap: 8px;
     }
     .celda-dia {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid #e2e8f0;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid #cbd5e1;
       border-radius: 10px;
-      min-height: 65px;
+      min-height: 90px;
       padding: 6px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      gap: 4px;
       transition: all 0.2s ease;
+      overflow: hidden;
     }
     .celda-dia:hover {
       background: #ffffff;
-      border-color: #38bdf8;
+      border-color: #0284c7;
+      transform: translateY(-2px);
     }
     .celda-dia.vacia {
       background: transparent;
       border: none;
       cursor: default;
     }
+    .celda-dia.vacia:hover { transform: none; }
     .celda-dia.hoy {
       border: 2px solid #0284c7;
       background: #e0f2fe;
     }
-    .celda-dia.seleccionado {
-      background: #0369a1;
-      color: #ffffff;
-    }
     .numero-dia {
       font-weight: bold;
       font-size: 14px;
+      color: #334155;
     }
-    .indicador-eventos {
-      display: flex;
-      gap: 3px;
-      flex-wrap: wrap;
-    }
-    .punto-evento {
-      width: 6px;
-      height: 6px;
-      background-color: #eab308;
-      border-radius: 50%;
-    }
-    .celda-dia.seleccionado .punto-evento {
-      background-color: #ffffff;
-    }
-
-    /* PANEL LATERAL DE EVENTOS */
-    .panel-eventos {
-      flex: 1;
-      min-width: 280px;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    .contenedor-eventos-celda {
       display: flex;
       flex-direction: column;
+      gap: 2px;
+      overflow-y: auto;
     }
-    .panel-eventos h3 {
-      margin-top: 0;
-      color: #0369a1;
-      font-size: 16px;
+    .etiqueta-evento {
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 11px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .etiqueta-evento.multidia {
+      background: #0d9488;
+    }
+
+    /* VENTANA EMERGENTE (MODAL EVENTOS) */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.activo { display: flex; }
+    .modal-contenido {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .modal-cabecera {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
       border-bottom: 2px solid #e2e8f0;
       padding-bottom: 8px;
     }
-    .form-evento {
+    .modal-cabecera h3 { margin: 0; color: #0369a1; }
+    .btn-cerrar-modal {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #64748b;
+      box-shadow: none;
+    }
+
+    .form-grupo {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: 4px;
+      margin-bottom: 10px;
     }
-    .form-evento input {
-      padding: 8px 12px;
+    .form-grupo label {
+      font-size: 12px;
+      font-weight: bold;
+      color: #475569;
+    }
+    .form-grupo input {
+      padding: 8px 10px;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
       font-size: 13px;
       outline: none;
     }
-    .lista-eventos-dia {
+    .checkbox-fijo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+      font-size: 13px;
+    }
+    .lista-eventos-modal {
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin: 16px 0 0 0;
+      max-height: 150px;
       overflow-y: auto;
-      flex: 1;
-    }
-    .item-evento {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .evento-info {
-      display: flex;
-      flex-direction: column;
-    }
-    .evento-titulo {
-      font-weight: bold;
-      font-size: 14px;
-      color: #0f172a;
-    }
-    .evento-hora {
-      font-size: 12px;
-      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
     }
 
     /* MODAL DE ALARMA ACTIVA */
     .overlay-alarma {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(8px);
       z-index: 9999;
@@ -519,6 +526,40 @@
       <h2>🔔 RECORDATORIO ACTIVO</h2>
       <p id="texto-alarma-mensaje">Nombre de la tarea</p>
       <button class="btn-apagar-alarma" onclick="apagarAlarma()">OK / Detener Alarma</button>
+    </div>
+  </div>
+
+  <!-- MODAL PARA AÑADIR / VER EVENTOS DE UN DÍA -->
+  <div id="modal-eventos-dia" class="modal-overlay">
+    <div class="modal-contenido">
+      <div class="modal-cabecera">
+        <h3 id="titulo-modal-fecha">Eventos</h3>
+        <button class="btn-cerrar-modal" onclick="cerrarModalEventos()">✕</button>
+      </div>
+
+      <div class="form-grupo">
+        <label>Título del evento:</label>
+        <input type="text" id="input-modal-titulo" placeholder="Ej. Viaje o Consulta médica" />
+      </div>
+
+      <div class="form-grupo">
+        <label>Hora de inicio:</label>
+        <input type="time" id="input-modal-hora" value="12:00" />
+      </div>
+
+      <div class="checkbox-fijo">
+        <input type="checkbox" id="check-multidia" onchange="alternarCamposMultidia(this.checked)" />
+        <label for="check-multidia">¿Dura más de un día?</label>
+      </div>
+
+      <div class="form-grupo" id="grupo-fecha-fin" style="display: none;">
+        <label>Fecha de fin:</label>
+        <input type="date" id="input-modal-fechafin" />
+      </div>
+
+      <button style="width: 100%; margin-top: 8px;" onclick="guardarEventoModal()">+ Añadir Evento</button>
+
+      <ul id="lista-modal-eventos" class="lista-eventos-modal"></ul>
     </div>
   </div>
 
@@ -640,32 +681,18 @@
     <ul id="lista-rutinas" class="lista-rutinas"></ul>
   </div>
 
-  <!-- VISTA 5: CALENDARIO PROPIO -->
+  <!-- VISTA 5: CALENDARIO COMPLETO -->
   <div id="vista-calendario" class="seccion-pantalla">
-    <div class="calendario-layout">
-      <!-- CALENDARIO PRINCIPAL -->
-      <div class="calendario-main">
-        <div class="calendario-header">
-          <button class="btn-secundario" onclick="cambiarMes(-1)">◀ Anterior</button>
-          <h2 id="titulo-mes-año">Mes Año</h2>
-          <button class="btn-secundario" onclick="cambiarMes(1)">Siguiente ▶</button>
-        </div>
-        <div class="grid-dias-semana">
-          <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
-        </div>
-        <div id="grid-calendario" class="grid-calendario"></div>
+    <div class="calendario-completo">
+      <div class="calendario-header">
+        <button class="btn-secundario" onclick="cambiarMes(-1)">◀ Anterior</button>
+        <h2 id="titulo-mes-año">Mes Año</h2>
+        <button class="btn-secundario" onclick="cambiarMes(1)">Siguiente ▶</button>
       </div>
-
-      <!-- PANEL DE EVENTOS -->
-      <div class="panel-eventos">
-        <h3 id="titulo-dia-seleccionado">Eventos del día</h3>
-        <div class="form-evento">
-          <input type="text" id="input-titulo-evento" placeholder="Título del evento..." />
-          <input type="time" id="input-hora-evento" value="12:00" />
-          <button onclick="agregarEvento()">+ Añadir Evento</button>
-        </div>
-        <ul id="lista-eventos" class="lista-eventos-dia"></ul>
+      <div class="grid-dias-semana">
+        <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
       </div>
+      <div id="grid-calendario" class="grid-calendario"></div>
     </div>
   </div>
 
@@ -695,18 +722,18 @@
       if (e && e.currentTarget) e.currentTarget.classList.add('activo');
     }
 
-    // 3. LÓGICA DEL CALENDARIO NATIVO
+    // 3. LÓGICA DEL CALENDARIO Y EVENTOS MULTIDÍA
     let fechaActualCalendario = new Date();
     let fechaSeleccionadaClave = obtenerClaveFecha(new Date());
-    let eventosHogar = cargarEventos();
+    let listaEventos = cargarEventos();
 
     function cargarEventos() {
-      const guardado = localStorage.getItem("eventos_calendario_local");
-      return guardado ? JSON.parse(guardado) : {};
+      const guardado = localStorage.getItem("eventos_calendario_completo");
+      return guardado ? JSON.parse(guardado) : [];
     }
 
     function guardarEventos() {
-      localStorage.setItem("eventos_calendario_local", JSON.stringify(eventosHogar));
+      localStorage.setItem("eventos_calendario_completo", JSON.stringify(listaEventos));
     }
 
     function obtenerClaveFecha(fecha) {
@@ -721,10 +748,100 @@
       renderizarCalendario();
     }
 
-    function seleccionarDia(claveFecha) {
+    function abrirModalEventos(claveFecha) {
       fechaSeleccionadaClave = claveFecha;
+      const partes = claveFecha.split("-");
+      const fechaObj = new Date(partes[0], partes[1] - 1, partes[2]);
+      const fechaTexto = fechaObj.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+      
+      document.getElementById("titulo-modal-fecha").innerText = `Eventos del ${fechaTexto}`;
+      document.getElementById("input-modal-titulo").value = "";
+      document.getElementById("check-multidia").checked = false;
+      document.getElementById("input-modal-fechafin").value = claveFecha;
+      alternarCamposMultidia(false);
+      
+      renderizarListaModal();
+      document.getElementById("modal-eventos-dia").classList.add("activo");
+    }
+
+    function cerrarModalEventos() {
+      document.getElementById("modal-eventos-dia").classList.remove("activo");
       renderizarCalendario();
-      renderizarEventos();
+    }
+
+    function alternarCamposMultidia(activo) {
+      document.getElementById("grupo-fecha-fin").style.display = activo ? "flex" : "none";
+    }
+
+    function guardarEventoModal() {
+      const titulo = document.getElementById("input-modal-titulo").value.trim();
+      const hora = document.getElementById("input-modal-hora").value;
+      const esMultidia = document.getElementById("check-multidia").checked;
+      let fechaFin = fechaSeleccionadaClave;
+
+      if (esMultidia) {
+        const valFin = document.getElementById("input-modal-fechafin").value;
+        if (valFin && valFin >= fechaSeleccionadaClave) {
+          fechaFin = valFin;
+        }
+      }
+
+      if (!titulo) return;
+
+      listaEventos.push({
+        id: Date.now(),
+        titulo,
+        hora,
+        fechaInicio: fechaSeleccionadaClave,
+        fechaFin: fechaFin,
+        esMultidia
+      });
+
+      guardarEventos();
+      document.getElementById("input-modal-titulo").value = "";
+      renderizarListaModal();
+      renderizarCalendario();
+    }
+
+    function eliminarEvento(id) {
+      listaEventos = listaEventos.filter(e => e.id !== id);
+      guardarEventos();
+      renderizarListaModal();
+      renderizarCalendario();
+    }
+
+    function renderizarListaModal() {
+      const listaUl = document.getElementById("lista-modal-eventos");
+      listaUl.innerHTML = "";
+
+      const eventosDia = listaEventos.filter(e => {
+        return fechaSeleccionadaClave >= e.fechaInicio && fechaSeleccionadaClave <= e.fechaFin;
+      });
+
+      if (eventosDia.length === 0) {
+        listaUl.innerHTML = `<li style="color: #64748b; font-size: 13px; text-align: center;">No hay eventos para este día.</li>`;
+        return;
+      }
+
+      eventosDia.forEach(evt => {
+        const li = document.createElement("li");
+        li.className = "item-pizarra";
+        li.style.marginBottom = "8px";
+        
+        let textoFecha = `🕒 ${evt.hora}`;
+        if (evt.fechaInicio !== evt.fechaFin) {
+          textoFecha += ` | Hasta: ${evt.fechaFin}`;
+        }
+
+        li.innerHTML = `
+          <div style="display: flex; flex-direction: column;">
+            <strong style="color: #0f172a;">${evt.titulo}</strong>
+            <span style="font-size: 11px; color: #64748b;">${textoFecha}</span>
+          </div>
+          <button class="btn-borrar" onclick="eliminarEvento(${evt.id})">✕</button>
+        `;
+        listaUl.appendChild(li);
+      });
     }
 
     function renderizarCalendario() {
@@ -740,11 +857,9 @@
       const nombreMes = fechaActualCalendario.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
       document.getElementById("titulo-mes-año").innerText = nombreMes;
 
-      // Obtener el día de la semana (ajustar para que Lunes sea 0 y Domingo 6)
       let diaInicioSemana = primerDiaMes.getDay() - 1;
       if (diaInicioSemana === -1) diaInicioSemana = 6;
 
-      // Celdas vacías al inicio del mes
       for (let i = 0; i < diaInicioSemana; i++) {
         const celdaVacia = document.createElement("div");
         celdaVacia.className = "celda-dia vacia";
@@ -753,7 +868,6 @@
 
       const hoyClave = obtenerClaveFecha(new Date());
 
-      // Celdas para cada día del mes
       for (let dia = 1; dia <= ultimoDiaMes.getDate(); dia++) {
         const fechaCelda = new Date(año, mes, dia);
         const claveCelda = obtenerClaveFecha(fechaCelda);
@@ -761,95 +875,31 @@
         const celda = document.createElement("div");
         celda.className = "celda-dia";
         if (claveCelda === hoyClave) celda.classList.add("hoy");
-        if (claveCelda === fechaSeleccionadaClave) celda.classList.add("seleccionado");
 
-        celda.onclick = () => seleccionarDia(claveCelda);
+        celda.onclick = () => abrirModalEventos(claveCelda);
 
         const numDia = document.createElement("span");
         numDia.className = "numero-dia";
         numDia.innerText = dia;
         celda.appendChild(numDia);
 
-        // Mostrar puntos indicando si existen eventos
-        if (eventosHogar[claveCelda] && eventosHogar[claveCelda].length > 0) {
-          const contenedorPuntos = document.createElement("div");
-          contenedorPuntos.className = "indicador-eventos";
-          eventosHogar[claveCelda].forEach(() => {
-            const punto = document.createElement("div");
-            punto.className = "punto-evento";
-            contenedorPuntos.appendChild(punto);
-          });
-          celda.appendChild(contenedorPuntos);
-        }
+        const contenedorEventos = document.createElement("div");
+        contenedorEventos.className = "contenedor-eventos-celda";
 
+        const eventosDelDia = listaEventos.filter(e => claveCelda >= e.fechaInicio && claveCelda <= e.fechaFin);
+
+        eventosDelDia.forEach(evt => {
+          const etiqueta = document.createElement("div");
+          etiqueta.className = "etiqueta-evento";
+          if (evt.fechaInicio !== evt.fechaFin) {
+            etiqueta.classList.add("multidia");
+          }
+          etiqueta.innerText = `${evt.hora} ${evt.titulo}`;
+          contenedorEventos.appendChild(etiqueta);
+        });
+
+        celda.appendChild(contenedorEventos);
         grid.appendChild(celda);
-      }
-    }
-
-    function renderizarEventos() {
-      const listaUl = document.getElementById("lista-eventos");
-      listaUl.innerHTML = "";
-
-      const partes = fechaSeleccionadaClave.split("-");
-      const fechaObj = new Date(partes[0], partes[1] - 1, partes[2]);
-      const fechaTexto = fechaObj.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
-      
-      document.getElementById("titulo-dia-seleccionado").innerText = `Eventos (${fechaTexto})`;
-
-      const eventosDelDia = eventosHogar[fechaSeleccionadaClave] || [];
-
-      if (eventosDelDia.length === 0) {
-        listaUl.innerHTML = `<li style="color: #64748b; font-size: 13px;">No hay eventos anotados.</li>`;
-        return;
-      }
-
-      eventosDelDia.forEach((evt, index) => {
-        const li = document.createElement("li");
-        li.className = "item-evento";
-        li.innerHTML = `
-          <div class="evento-info">
-            <span class="evento-titulo">${evt.titulo}</span>
-            <span class="evento-hora">🕒 ${evt.hora}</span>
-          </div>
-          <button class="btn-borrar" onclick="eliminarEvento(${index})">✕</button>
-        `;
-        listaUl.appendChild(li);
-      });
-    }
-
-    function agregarEvento() {
-      const inputTitulo = document.getElementById("input-titulo-evento");
-      const inputHora = document.getElementById("input-hora-evento");
-      const titulo = inputTitulo.value.trim();
-      const hora = inputHora.value;
-
-      if (!titulo) return;
-
-      if (!eventosHogar[fechaSeleccionadaClave]) {
-        eventosHogar[fechaSeleccionadaClave] = [];
-      }
-
-      eventosHogar[fechaSeleccionadaClave].push({ id: Date.now(), titulo, hora });
-      
-      // Ordenar eventos del día por hora
-      eventosHogar[fechaSeleccionadaClave].sort((a, b) => a.hora.localeCompare(b.hora));
-
-      guardarEventos();
-      inputTitulo.value = "";
-      
-      renderizarCalendario();
-      renderizarEventos();
-    }
-
-    function eliminarEvento(index) {
-      if (eventosHogar[fechaSeleccionadaClave]) {
-        eventosHogar[fechaSeleccionadaClave].splice(index, 1);
-        if (eventosHogar[fechaSeleccionadaClave].length === 0) {
-          delete eventosHogar[fechaSeleccionadaClave];
-        }
-        guardarEventos();
-        renderizarCalendario();
-        renderizarEventos();
       }
     }
 
@@ -872,7 +922,7 @@
         audioAlarma.pause();
         audioAlarma.currentTime = 0;
         sistemaInicializado = true;
-      }).catch(e => console.log("Esperando toque inicial del usuario..."));
+      }).catch(e => console.log("Esperando interacción..."));
     }
 
     document.addEventListener("click", inicializarSistema, { once: true });
@@ -892,12 +942,8 @@
     function exportarAlarmaNativa(titulo, horaHHMM) {
       const ahora = new Date();
       const [horas, minutos] = horaHHMM.split(':');
-      
       const fechaEvento = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate(), horas, minutos);
-      
-      if (fechaEvento < ahora) {
-        fechaEvento.setDate(fechaEvento.getDate() + 1);
-      }
+      if (fechaEvento < ahora) fechaEvento.setDate(fechaEvento.getDate() + 1);
 
       const fechaFormateada = fechaEvento.toISOString().replace(/-|:|\.\d\d\d/g, "");
 
@@ -943,7 +989,6 @@ END:VCALENDAR`;
       renderizarRutinas();
 
       exportarAlarmaNativa(nombre, hora);
-
       nombreInput.value = "";
     }
 
@@ -987,9 +1032,7 @@ END:VCALENDAR`;
       audioAlarma.play().catch(e => console.log("Audio bloqueado por dispositivo: ", e));
 
       if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("🔔 RECORDATORIO DE RUTINA", {
-          body: nombreRutina
-        });
+        new Notification("🔔 RECORDATORIO DE RUTINA", { body: nombreRutina });
       }
     }
 
@@ -1357,7 +1400,6 @@ END:VCALENDAR`;
     cargarMenu();
     renderizarRutinas();
     renderizarCalendario();
-    renderizarEventos();
   </script>
 </body>
 </html>
