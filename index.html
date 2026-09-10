@@ -493,7 +493,6 @@
           <option value="finsemana">Sábados y Domingos</option>
         </select>
         <button onclick="agregarRutina()">Guardar Rutina</button>
-        <button class="btn-secundario" onclick="activarPermisoAudio()">🔔 Activar Sonido Alarma</button>
       </div>
     </div>
     <ul id="lista-rutinas" class="lista-rutinas"></ul>
@@ -539,7 +538,7 @@
       if (e && e.currentTarget) e.currentTarget.classList.add('activo');
     }
 
-    // 3. RUTINARIO Y AUDIO EN BUCLE (LOOP)
+    // 3. RUTINARIO, AUDIO AUTOMÁTICO Y NOTIFICACIONES
     let rutinas = cargarRutinas();
     let ultimasAlarmasEjecutadas = {};
     
@@ -547,13 +546,26 @@
     let audioAlarma = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
     audioAlarma.loop = true;
 
-    function activarPermisoAudio() {
+    // Inicializador automático con el primer toque en la pantalla
+    let sistemaInicializado = false;
+    function inicializarSistema() {
+      if (sistemaInicializado) return;
+
+      // Desbloquear permisos de Notificación nativa en iPhone
+      if ("Notification" in window && Notification.permission !== "granted") {
+        Notification.requestPermission();
+      }
+
+      // Preparar el reproductor de sonido
       audioAlarma.play().then(() => {
         audioAlarma.pause();
         audioAlarma.currentTime = 0;
-        alert("Audio para alarmas habilitado correctamente.");
-      }).catch(() => alert("Error activando el audio."));
+        sistemaInicializado = true;
+      }).catch(e => console.log("Esperando toque inicial del usuario..."));
     }
+
+    document.addEventListener("click", inicializarSistema, { once: true });
+    document.addEventListener("touchstart", inicializarSistema, { once: true });
 
     function cargarRutinas() {
       const guardado = localStorage.getItem("rutinas_hogar_local");
@@ -614,13 +626,20 @@
       });
     }
 
-    // INICIAR SONIDO EN BUCLE Y MOSTRAR MODAL
+    // DISPARAR ALARMA (SONIDO Y NOTIFICACIÓN NATIVA)
     function dispararAlarma(nombreRutina) {
       document.getElementById("texto-alarma-mensaje").innerText = nombreRutina;
       document.getElementById("modal-alarma").classList.add("activo");
       
       audioAlarma.currentTime = 0;
       audioAlarma.play().catch(e => console.log("Audio bloqueado por dispositivo: ", e));
+
+      // Disparar Notificación del sistema iOS
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("🔔 RECORDATORIO DE RUTINA", {
+          body: nombreRutina
+        });
+      }
     }
 
     // DETENER SONIDO Y OCULTAR MODAL AL PULSAR OK
