@@ -290,9 +290,24 @@
     .rutina-horario { font-size: 13px; color: #64748b; display: flex; align-items: center; gap: 4px; }
 
     /* CALENDARIO */
+    .barra-superior-calendario {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+    .barra-superior-calendario span {
+      font-weight: 600;
+      color: #0369a1;
+      font-size: 14px;
+    }
     .contenedor-iframe {
       width: 100%;
-      height: 100%;
+      height: calc(100% - 60px);
       background: rgba(255, 255, 255, 0.88);
       border-radius: 16px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.04);
@@ -500,9 +515,14 @@
 
   <!-- VISTA 5: CALENDARIO -->
   <div id="vista-calendario" class="seccion-pantalla">
+    <div class="barra-superior-calendario">
+      <span>Gestión de Cuenta</span>
+      <button class="btn-secundario" onclick="cerrarSesionGoogle()">🚪 Cerrar Sesión de Google</button>
+    </div>
     <div class="contenedor-iframe">
       <iframe 
-        src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FMadrid&showPrint=0&src=Y2FicmVqYXM2MkBnbWFpbC5jb20&src=ZGQ5ZDczNTYwZGM3ODViZjkyYWRiMDA2MjU0Y2M0MmI5YmI3OWRmZDE4N2FiZjBhOGMxNWFmMWEwNGYwMzNmN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NTZmOGI3NDRiZjcyNWU3YzE0OTNkNzEyOTAzNWQ1ZjFmOGU2YjgyZmNjYjI5NDczNmQ3YWRkNzNmMjg4N2FlNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2U3NjFjYTYyOGNlZTFkMzE2YTFjZWVhYjhjNjNmMjFkMTVkMjAxMWIxODcwNDM3NzdlMGNiZGQ1ZGY1YzE2ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YTY4MWMwNjdjMmU5OGFkNTMyYTdlMTQxNmQ1OWE4N2IyN2QyMGUyNTAwMzVhOGVjYzJmZDRjOWVmMTBiZTQzMUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YjJlOTA1YmFlYzk0MzRmZWRhYzJhM2Y3ZmQ1NTk5YTAxMThkMTZkZGE5NTEzYWJjYjVjNjdlMTcyNTQzM3E4MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Yjg6NzVkNWIyNDVlMTk2NjQ5NDVmOTc1NTVjMWYyZjU1NzhhYzMxNDgzMWE4M3FkZDRkMjAzNmZlOTA1OTZiNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=OGU1M2NjYTVhZjEwMjBkODk5NzRhNTZlNDQ0NmMyMTBlODFkYmI4MzZhODQ5MTM5ZTI4OGIwYWM2YTdiZTcwNkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MmIzZjkwNzgwMWVjY2Q0MDIxMzJjYTQ6MTQxNzJiZmMxNDhkMGM5YmRiMTI5ZmYyZDdjN2MxNzIxMzQyOWQxNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MzM6OTE5MjI1YzExYjg1MmE5ZDBiMTk4YTAzYjU0YjQ0YmUxYzQ3YTU1OGRlMDQ4MTI3ODIxMjY4NGRmN2NjMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuY2hyaXN0aWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuc3BhaW4jaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285f4&color=%23616161&color=%23ad1457&color=%23c0ca33&color=%239e69af&color=%23f6bf26&color=%23d50000&color=%23ef6c00&color=%2333b679&color=%234285f4&color=%230b8043&color=%23f6bf26" 
+        id="iframe-calendario"
+        src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FMadrid&showPrint=0&src=Y2FicmVqYXM2MkBnbWFpbC5jb20&src=ZGQ5ZDczNTYwZGM3ODViZjkyYWRiMDA2MjU0Y2M0MmI5YmI3OWRmZDE4N2FiZjBhOGMxNWFmMWEwNGYwMzNmN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NTZmOGI3NDRiZjcyNWU3YzE0OTNkNzEyOTAzNWQ1ZjFmOGU2YjgyZmNjYjI5NDczNmQ3YWRkNzNmMjg4N2FlNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y2U3NjFjYTYyOGNlZTFkMzE2YTFjZWVhYjhjNjNmMjFkMTVkMjAxMWIxODcwNDM3NzdlMGNiZGQ1ZGY1YzE2ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YTY4MWMwNjdjMmU5OGFkNTMyYTdlMTQxNmQ1OWE4N2IyN2QyMGUyNTAwMzVhOGVjYzJmZDRjOWVmMTBiZTQzMUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YjJlOTA1YmFlYzk0MzRmZWRhYzJhM3F3ZmQ1NTk5YTAxMThkMTZkZGE5NTEzYWJjYjVjNjdlMTcyNTQzM3E4MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Yjg6NzVkNWIyNDVlMTk2NjQ5NDVmOTc1NTVjMWYyZjU1NzhhYzMxNDgzMWE4M3FkZDRkMjAzNmZlOTA1OTZiNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=OGU1M2NjYTVhZjEwMjBkODk5NzRhNTZlNDQ0NmMyMTBlODFkYmI4MzZhODQ5MTM5ZTI4OGIwYWM2YTdiZTcwNkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MmIzZjkwNzgwMWVjY2Q0MDIxMzJjYTQ6MTQxNzJiZmMxNDhkMGM5YmRiMTI5ZmYyZDdjN2MxNzIxMzQyOWQxNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MzM6OTE5MjI1YzExYjg1MmE5ZDBiMTk4YTAzYjU0YjQ0YmUxYzQ3YTU1OGRlMDQ4MTI3ODIxMjY4NGRmN2NjMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuY2hyaXN0aWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuc3BhaW4jaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285f4&color=%23616161&color=%23ad1457&color=%23c0ca33&color=%239e69af&color=%23f6bf26&color=%23d50000&color=%23ef6c00&color=%2333b679&color=%234285f4&color=%230b8043&color=%23f6bf26" 
         style="border:0" 
         frameborder="0" 
         scrolling="no"
@@ -538,25 +558,33 @@
       if (e && e.currentTarget) e.currentTarget.classList.add('activo');
     }
 
-    // 3. RUTINARIO, AUDIO AUTOMÁTICO Y NOTIFICACIONES
+    // 3. CERRAR SESIÓN DE GOOGLE
+    function cerrarSesionGoogle() {
+      if (confirm("¿Quieres cerrar la sesión activa de Google para usar otra cuenta?")) {
+        // Abre la página de desconexión oficial en una ventana emergente/nueva pestaña
+        window.open("https://accounts.google.com/Logout", "_blank");
+        
+        // Recarga el iframe del calendario para forzar el inicio de sesión con la nueva cuenta
+        const iframe = document.getElementById("iframe-calendario");
+        iframe.src = iframe.src;
+      }
+    }
+
+    // 4. RUTINARIO, AUDIO AUTOMÁTICO Y NOTIFICACIONES
     let rutinas = cargarRutinas();
     let ultimasAlarmasEjecutadas = {};
     
-    // Configuración del objeto de Audio con BUCLE (loop = true)
     let audioAlarma = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
     audioAlarma.loop = true;
 
-    // Inicializador automático con el primer toque en la pantalla
     let sistemaInicializado = false;
     function inicializarSistema() {
       if (sistemaInicializado) return;
 
-      // Desbloquear permisos de Notificación nativa en iPhone
       if ("Notification" in window && Notification.permission !== "granted") {
         Notification.requestPermission();
       }
 
-      // Preparar el reproductor de sonido
       audioAlarma.play().then(() => {
         audioAlarma.pause();
         audioAlarma.currentTime = 0;
@@ -578,25 +606,18 @@
       localStorage.setItem("rutinas_hogar_local", JSON.stringify(rutinas));
     }
 
-    /**
-     * Genera un archivo .ics para abrir la alarma/evento en el sistema nativo del móvil
-     */
     function exportarAlarmaNativa(titulo, horaHHMM) {
       const ahora = new Date();
       const [horas, minutos] = horaHHMM.split(':');
       
-      // Ajustar la hora seleccionada para el evento de hoy
       const fechaEvento = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate(), horas, minutos);
       
-      // Si la hora ya pasó hoy, se programa para mañana
       if (fechaEvento < ahora) {
         fechaEvento.setDate(fechaEvento.getDate() + 1);
       }
 
-      // Formato iCalendar UTC (YYYYMMDDTHHMMSSZ)
       const fechaFormateada = fechaEvento.toISOString().replace(/-|:|\.\d\d\d/g, "");
 
-      // Estructura del evento con alarma de activación (TRIGGER)
       const contenidoICS = 
 `BEGIN:VCALENDAR
 VERSION:2.0
@@ -614,7 +635,6 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR`;
 
-      // Creación del archivo descargable al vuelo
       const blob = new Blob([contenidoICS], { type: 'text/calendar;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const enlace = document.createElement('a');
@@ -639,7 +659,6 @@ END:VCALENDAR`;
       guardarRutinas();
       renderizarRutinas();
 
-      // Exportar la rutina como alarma nativa para el teléfono
       exportarAlarmaNativa(nombre, hora);
 
       nombreInput.value = "";
@@ -677,7 +696,6 @@ END:VCALENDAR`;
       });
     }
 
-    // DISPARAR ALARMA (SONIDO Y NOTIFICACIÓN NATIVA)
     function dispararAlarma(nombreRutina) {
       document.getElementById("texto-alarma-mensaje").innerText = nombreRutina;
       document.getElementById("modal-alarma").classList.add("activo");
@@ -685,7 +703,6 @@ END:VCALENDAR`;
       audioAlarma.currentTime = 0;
       audioAlarma.play().catch(e => console.log("Audio bloqueado por dispositivo: ", e));
 
-      // Disparar Notificación del sistema iOS
       if ("Notification" in window && Notification.permission === "granted") {
         new Notification("🔔 RECORDATORIO DE RUTINA", {
           body: nombreRutina
@@ -693,7 +710,6 @@ END:VCALENDAR`;
       }
     }
 
-    // DETENER SONIDO Y OCULTAR MODAL AL PULSAR OK
     function apagarAlarma() {
       audioAlarma.pause();
       audioAlarma.currentTime = 0;
@@ -727,7 +743,7 @@ END:VCALENDAR`;
 
     setInterval(verificarAlarmas, 10000);
 
-    // 4. ESTANCIAS DE LIMPIEZA
+    // 5. ESTANCIAS DE LIMPIEZA
     const svgCama = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>`;
     const svgJuguete = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
     const svgMando = `<svg class="icono-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
@@ -981,7 +997,7 @@ END:VCALENDAR`;
       });
     }
 
-    // 5. PIZARRA Y MENÚ
+    // 6. PIZARRA Y MENÚ
     let estadoPizarra = cargarPizarra();
 
     function cargarPizarra() {
